@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment History - Altiva</title>
+    <style>
+        :root {
+            --primary-color: #02aeec;
+            --primary-dark: #0399de;
+            --primary-ultra-dark: #053f74;
+            --secondary-color: #50E3C2;
+            --background-color: #f5f7f9;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --border-color: #E2E8F0;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --neutral-color: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
+        }
+
+       /* Header Styles - UNCHANGED */
+        header {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            width: 25px;
+            height: 30px;
+            border-radius: 12px;
+        }
+
+        .logoDiv {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+        }
+
+        .logoDiv h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-ultra-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .back-btn {
+            margin-left: auto;
+            background: var(--primary-ultra-dark);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            min-height: 36px;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 15px 12px;
+            padding-bottom: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 6px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            color: #64748B;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.3;
+            padding: 0 10px;
+        }
+
+        /* Stats Cards - Mobile First */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 480px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 16px 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .stat-icon.active { background: var(--primary-color); }
+        .stat-icon.partial { background: var(--warning-color); }
+        .stat-icon.sold { background: var(--success-color); }
+        .stat-icon.total { background: var(--primary-ultra-dark); }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 2px;
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #64748B;
+            line-height: 1.2;
+        }
+
+        /* Filters Section - Mobile Optimized */
+        .filters-section {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 16px;
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filters-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+        }
+
+        .export-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            min-height: 36px;
+        }
+
+        .export-btn:hover {
+            background: #0da271;
+            transform: translateY(-1px);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 480px) {
+            .filters-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .filters-grid {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+        }
+
+        .filter-select, .filter-input {
+            padding: 10px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            background: var(--background-color);
+            transition: all 0.3s ease;
+            min-height: 40px;
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(2, 174, 236, 0.1);
+        }
+
+        /* Investments List - Mobile Optimized */
+        .investments-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+        }
+
+        .results-count {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        .investments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .investment-item {
+            background: var(--background-color);
+            border-radius: 10px;
+            padding: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .investment-item.sold {
+            border-left-color: var(--success-color);
+            opacity: 0.9;
+        }
+
+        .investment-item.partial {
+            border-left-color: var(--warning-color);
+        }
+
+        .investment-item:hover {
+            transform: translateX(2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .investment-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            gap: 8px;
+        }
+
+        .investment-name-container {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .investment-name {
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+            font-size: 15px;
+            margin-bottom: 4px;
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        .investment-badge {
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 600;
+            color: white;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .badge-active { background: var(--primary-color); }
+        .badge-partial { background: var(--warning-color); }
+        .badge-sold { background: var(--success-color); }
+
+        .investment-stats {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .investment-amount {
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            font-size: 14px;
+            margin-bottom: 2px;
+            line-height: 1.1;
+        }
+
+        .investment-units {
+            font-size: 11px;
+            color: #64748B;
+            line-height: 1.2;
+        }
+
+        .investment-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            margin-bottom: 8px;
+        }
+
+        .detail-item {
+            font-size: 12px;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .detail-item i {
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        .notes-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .notes-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .notes-content {
+            font-size: 12px;
+            color: #64748B;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .notes-empty {
+            font-style: italic;
+            opacity: 0.6;
+        }
+
+        .investment-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            gap: 8px;
+        }
+
+        .sell-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .sell-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 30px 15px;
+            color: #64748B;
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 16px;
+            margin-bottom: 6px;
+            color: var(--primary-ultra-dark);
+        }
+
+        .empty-state p {
+            margin-bottom: 16px;
+            font-size: 13px;
+            line-height: 1.3;
+        }
+
+        .empty-state .btn {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* Loading State */
+        .loading-state {
+            text-align: center;
+            padding: 30px 15px;
+            color: #64748B;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(2, 174, 236, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Bottom Navigation - Mobile Optimized */
+        .navbarModern {
+            width: 100%;
+            height: 65px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+            padding: 0 8px;
+        }
+
+        .navItem {
+            color: var(--primary-ultra-dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            width: 55px;
+            height: 45px;
+            flex-shrink: 0;
+        }
+
+        .navItem.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navItem i {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .navLabel {
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+        /* Enhanced Mobile Optimizations */
+        @media (max-width: 360px) {
+            .main-content {
+                padding: 12px 10px;
+                padding-bottom: 75px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr ;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 14px 10px;
+            }
+
+            .filters-section, .investments-section {
+                padding: 14px;
+            }
+
+            .investment-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+
+            .investment-stats {
+                text-align: left;
+                width: 100%;
+            }
+
+            .investment-actions {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 320px) {
+            header {
+                padding: 0 12px;
+            }
+
+            .logoDiv h1 {
+                font-size: 16px;
+            }
+
+            .back-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .investment-item {
+                padding: 12px;
+            }
+
+            .navbarModern {
+                height: 60px;
+            }
+
+            .navItem {
+                width: 50px;
+                height: 40px;
+            }
+        }
+
+        /* Touch improvements */
+        @media (hover: none) {
+            .investment-item:hover {
+                transform: none;
+            }
+
+            .back-btn:hover, .export-btn:hover, .sell-btn:hover {
+                transform: none;
+            }
+        }
+
+        /* High contrast support */
+        @media (prefers-contrast: high) {
+            .investment-item {
+                border-width: 2px;
+            }
+
+            .notes-section {
+                border-top-width: 2px;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .loading-spinner {
+                animation: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logoDiv">
+            <img src="assets/A letter Logo design-Photoroom.png" alt="Altiva Logo" class="logo"/>
+            <h1>ltiva</h1>
+        </div>
+        
+        <a style="padding: 10px 20px;" href="history.html" class="back-btn">
+            <span><i class="fa-solid fa-arrow-left"></i></span>
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Investment History</h1>
+        <p class="page-subtitle">Complete overview of all your long-term investments</p>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div class="stat-value" id="totalInvestments">0</div>
+                <div class="stat-label">Total Investments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon active">
+                    <i class="fa-solid fa-play-circle"></i>
+                </div>
+                <div class="stat-value" id="activeInvestments">0</div>
+                <div class="stat-label">Active</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon partial">
+                    <i class="fa-solid fa-pause-circle"></i>
+                </div>
+                <div class="stat-value" id="partialInvestments">0</div>
+                <div class="stat-label">Partial</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon sold">
+                    <i class="fa-solid fa-check-circle"></i>
+                </div>
+                <div class="stat-value" id="soldInvestments">0</div>
+                <div class="stat-label">Sold</div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="filters-header">
+                <h3 class="filters-title">Filters & Export</h3>
+                <button class="export-btn" id="exportBtn">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Export CSV</span>
+                </button>
+            </div>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="filter-select" id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="partial">Partial</option>
+                        <option value="sold">Sold</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Category</label>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="stocks">Stocks</option>
+                        <option value="crypto">Cryptocurrency</option>
+                        <option value="mutual_funds">Mutual Funds</option>
+                        <option value="forex">Forex</option>
+                        <option value="commodities">Commodities</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Date From</label>
+                    <input type="date" class="filter-input" id="dateFrom">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Date To</label>
+                    <input type="date" class="filter-input" id="dateTo">
+                </div>
+            </div>
+        </div>
+
+        <!-- Investments List -->
+        <div class="investments-section">
+            <div class="section-header">
+                <h3 class="section-title">All Investments</h3>
+                <div class="results-count" id="resultsCount">Showing 0 investments</div>
+            </div>
+            
+            <div class="investments-list" id="investmentsList">
+                <!-- Investments will be loaded here -->
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading investments...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <footer style="display: none;">
+        <div class="navbarModern">
+            <a href="dashboard.html" class="navItem">
+                <i class="fa-solid fa-house"></i>
+                <span class="navLabel">Home</span>
+            </a>
+            <a href="trade.html" class="navItem">
+                <i class="fa-solid fa-plus"></i>
+                <span class="navLabel">Trade</span>
+            </a>
+            <a href="calendar.html" class="navItem">
+                <i class="fa-solid fa-calendar"></i>
+                <span class="navLabel">Calendar</span>
+            </a>
+            <a href="investments-history.html" class="navItem active">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="navLabel">History</span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            query, 
+            where, 
+            getDocs,
+            doc,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAGtlTRl6YCy9K6KkVdggFDra78vyPlRPI",
+            authDomain: "altiva-b8b07.firebaseapp.com",
+            projectId: "altiva-b8b07",
+            storageBucket: "altiva-b8b07.firebasestorage.app",
+            messagingSenderId: "181781306925",
+            appId: "1:181781306925:web:d7a3f9e51a79219d4562a4",
+            measurementId: "G-6999KN5RGR"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let allInvestments = [];
+        let filteredInvestments = [];
+
+        // DOM Elements
+        const investmentsList = document.getElementById('investmentsList');
+        const resultsCount = document.getElementById('resultsCount');
+        const exportBtn = document.getElementById('exportBtn');
+        const statusFilter = document.getElementById('statusFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const dateFrom = document.getElementById('dateFrom');
+        const dateTo = document.getElementById('dateTo');
+
+        // Stats elements
+        const totalInvestmentsEl = document.getElementById('totalInvestments');
+        const activeInvestmentsEl = document.getElementById('activeInvestments');
+        const partialInvestmentsEl = document.getElementById('partialInvestments');
+        const soldInvestmentsEl = document.getElementById('soldInvestments');
+
+        // Set date range defaults
+        const today = new Date();
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(today.getFullYear() - 1);
+        
+        dateFrom.valueAsDate = oneYearAgo;
+        dateTo.valueAsDate = today;
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadInvestmentsData();
+            } else {
+                window.location.href = 'auth.html';
+            }
+        });
+
+        // Load investments data
+        async function loadInvestmentsData() {
+            try {
+                const q = query(
+                    collection(db, 'investments'),
+                    where('userId', '==', currentUser.uid),
+                    where('investmentType', '==', 'long-term')
+                );
+                
+                const querySnapshot = await getDocs(q);
+                allInvestments = [];
+                
+                querySnapshot.forEach((doc) => {
+                    const investment = doc.data();
+                    allInvestments.push({
+                        id: doc.id,
+                        assetName: investment.assetName,
+                        category: investment.category,
+                        units: investment.units,
+                        buyPrice: investment.buyPrice,
+                        totalInvestment: investment.totalInvestment,
+                        purchaseDate: investment.purchaseDate,
+                        notes: investment.notes || '',
+                        status: investment.status || 'active',
+                        remainingUnits: investment.remainingUnits || investment.units,
+                        soldDate: investment.soldDate || null
+                    });
+                });
+
+                console.log(`Loaded ${allInvestments.length} investments`);
+                
+                // Sort by purchase date (newest first)
+                allInvestments.sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate));
+                
+                updateStats();
+                applyFilters();
+                
+            } catch (error) {
+                console.error('Error loading investments:', error);
+                showError('Failed to load investments. Please try again.');
+            }
+        }
+
+        // Update statistics
+        function updateStats() {
+            const total = allInvestments.length;
+            const active = allInvestments.filter(inv => inv.status === 'active').length;
+            const partial = allInvestments.filter(inv => inv.status === 'partial').length;
+            const sold = allInvestments.filter(inv => inv.status === 'sold').length;
+
+            totalInvestmentsEl.textContent = total;
+            activeInvestmentsEl.textContent = active;
+            partialInvestmentsEl.textContent = partial;
+            soldInvestmentsEl.textContent = sold;
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const status = statusFilter.value;
+            const category = categoryFilter.value;
+            const fromDate = dateFrom.value;
+            const toDate = dateTo.value;
+
+            filteredInvestments = allInvestments.filter(investment => {
+                // Status filter
+                if (status !== 'all' && investment.status !== status) {
+                    return false;
+                }
+
+                // Category filter
+                if (category !== 'all' && investment.category !== category) {
+                    return false;
+                }
+
+                // Date range filter
+                const purchaseDate = new Date(investment.purchaseDate);
+                const from = fromDate ? new Date(fromDate) : null;
+                const to = toDate ? new Date(toDate) : null;
+
+                if (from && purchaseDate < from) {
+                    return false;
+                }
+                if (to && purchaseDate > to) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            updateInvestmentsDisplay();
+        }
+
+        // Update investments display
+        function updateInvestmentsDisplay() {
+            if (filteredInvestments.length === 0) {
+                investmentsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h3>No investments found</h3>
+                        <p>No investments match your current filters.</p>
+                        <button onclick="clearFilters()" class="btn">Clear Filters</button>
+                    </div>
+                `;
+                resultsCount.textContent = 'Showing 0 investments';
+                return;
+            }
+
+            resultsCount.textContent = `Showing ${filteredInvestments.length} investments`;
+
+            investmentsList.innerHTML = filteredInvestments.map(investment => {
+                const availableUnits = investment.remainingUnits || investment.units;
+                const isFullySold = investment.status === 'sold';
+                const isPartiallySold = investment.status === 'partial';
+                const totalSold = investment.units - availableUnits;
+                
+                let badgeClass = 'badge-active';
+                let badgeText = 'ACTIVE';
+                let iconClass = 'active';
+
+                if (isFullySold) {
+                    badgeClass = 'badge-sold';
+                    badgeText = 'SOLD';
+                    iconClass = 'sold';
+                } else if (isPartiallySold) {
+                    badgeClass = 'badge-partial';
+                    badgeText = 'PARTIAL';
+                    iconClass = 'partial';
+                }
+
+                return `
+                    <div class="investment-item ${isFullySold ? 'sold' : isPartiallySold ? 'partial' : ''}">
+                        <div class="investment-header">
+                            <div class="investment-name-container">
+                                <div class="investment-name">${investment.assetName}</div>
+                                <div class="investment-badge ${badgeClass}">${badgeText}</div>
+                            </div>
+                            <div class="investment-stats">
+                                <div class="investment-amount">₹${investment.totalInvestment.toFixed(2)}</div>
+                                <div class="investment-units">@ ₹${investment.buyPrice.toFixed(2)}/unit</div>
+                            </div>
+                        </div>
+                        
+                        <div class="investment-details">
+                            <div class="detail-item">
+                                <i class="fa-solid fa-tag"></i>
+                                <span>${investment.category}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fa-solid fa-calendar"></i>
+                                <span>${new Date(investment.purchaseDate).toLocaleDateString()}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <span>${availableUnits}/${investment.units} units</span>
+                            </div>
+                            ${isPartiallySold ? `
+                                <div class="detail-item" style="color: var(--warning-color);">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <span>${totalSold} sold</span>
+                                </div>
+                            ` : ''}
+                            ${isFullySold && investment.soldDate ? `
+                                <div class="detail-item" style="color: var(--success-color);">
+                                    <i class="fa-solid fa-check"></i>
+                                    <span>Sold: ${new Date(investment.soldDate).toLocaleDateString()}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        ${investment.notes ? `
+                            <div class="notes-section">
+                                <div class="notes-label">
+                                    <i class="fa-solid fa-sticky-note"></i>
+                                    <span>Notes</span>
+                                </div>
+                                <div class="notes-content">${investment.notes}</div>
+                            </div>
+                        ` : `
+                            <div class="notes-section">
+                                <div class="notes-label">
+                                    <i class="fa-solid fa-sticky-note"></i>
+                                    <span>Notes</span>
+                                </div>
+                                <div class="notes-content notes-empty">No notes added</div>
+                            </div>
+                        `}
+
+                        ${!isFullySold ? `
+                            <div class="investment-actions">
+                                <button class="sell-btn" onclick="sellInvestment('${investment.id}')">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                    <span>Sell</span>
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            if (filteredInvestments.length === 0) {
+                alert('No data to export.');
+                return;
+            }
+
+            const headers = [
+                'Asset Name',
+                'Category',
+                'Status',
+                'Total Units',
+                'Available Units',
+                'Buy Price (₹)',
+                'Total Investment (₹)',
+                'Purchase Date',
+                'Sold Date',
+                'Notes'
+            ];
+
+            const csvData = filteredInvestments.map(investment => [
+                `"${investment.assetName}"`,
+                investment.category,
+                investment.status.toUpperCase(),
+                investment.units,
+                investment.remainingUnits || investment.units,
+                investment.buyPrice,
+                investment.totalInvestment,
+                new Date(investment.purchaseDate).toLocaleDateString(),
+                investment.soldDate ? new Date(investment.soldDate).toLocaleDateString() : 'N/A',
+                `"${investment.notes || 'No notes'}"`
+            ]);
+
+            const csvContent = [headers, ...csvData]
+                .map(row => row.join(','))
+                .join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', `altiva-investments-${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Clear filters
+        function clearFilters() {
+            statusFilter.value = 'all';
+            categoryFilter.value = 'all';
+            dateFrom.valueAsDate = oneYearAgo;
+            dateTo.valueAsDate = today;
+            applyFilters();
+        }
+
+        // Show error message
+        function showError(message) {
+            investmentsList.innerHTML = `
+                <div class="empty-state">
+                    <i class="fa-solid fa-exclamation-triangle" style="color: var(--danger-color);"></i>
+                    <h3>Error Loading Data</h3>
+                    <p>${message}</p>
+                    <button onclick="location.reload()" class="btn">Try Again</button>
+                </div>
+            `;
+        }
+
+        // Sell investment function
+        function sellInvestment(investmentId) {
+            window.location.href = `sell.html?id=${investmentId}`;
+        }
+
+        // Event listeners
+        statusFilter.addEventListener('change', applyFilters);
+        categoryFilter.addEventListener('change', applyFilters);
+        dateFrom.addEventListener('change', applyFilters);
+        dateTo.addEventListener('change', applyFilters);
+        exportBtn.addEventListener('click', exportToCSV);
+
+        // Make functions global
+        window.sellInvestment = sellInvestment;
+        window.clearFilters = clearFilters;
+    </script>
+</body>
+</html>

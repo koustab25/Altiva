@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Trade - Altiva</title>
+    <style>
+        :root {
+            --primary-color: #02aeec;
+            --primary-dark: #0399de;
+            --primary-ultra-dark: #053f74;
+            --secondary-color: #50E3C2;
+            --background-color: #F8FAFC;
+            --text-color: #333333;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --neutral-color: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        /* Header Styles - UNCHANGED */
+        header {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            width: 25px;
+            height: 30px;
+            border-radius: 12px;
+        }
+
+        .logoDiv {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+            margin-left: 10px;
+        }
+
+        .logoDiv h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-ultra-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            margin-left: auto;
+            background: var(--primary-ultra-dark);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            color: #64748B;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Trade Type Selector */
+        .trade-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .trade-type-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--background-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .trade-type-btn.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            border-color: var(--primary-ultra-dark);
+        }
+
+        .trade-type-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Input Mode Selector */
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--background-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .mode-btn.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            border-color: var(--primary-ultra-dark);
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Form Styles */
+        .trade-form {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: var(--background-color);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(2, 174, 236, 0.1);
+        }
+
+        /* Profit/Loss Selector */
+        .pl-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .pl-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            background: var(--background-color);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .pl-btn.active.profit {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success-color);
+            color: var(--success-color);
+        }
+
+        .pl-btn.active.loss {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        /* Input Modes */
+        .input-mode {
+            display: none;
+        }
+
+        .input-mode.active {
+            display: block;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        /* Result Display */
+        .result-card {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 14px;
+            color: #64748B;
+            margin-bottom: 5px;
+        }
+
+        .result-amount {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .profit { color: var(--success-color); }
+        .loss { color: var(--danger-color); }
+        .neutral { color: var(--neutral-color); }
+
+        .result-status {
+            font-size: 16px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .status-profit { 
+            background: rgba(16, 185, 129, 0.1); 
+            color: var(--success-color);
+        }
+        .status-loss { 
+            background: rgba(239, 68, 68, 0.1); 
+            color: var(--danger-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary-ultra-dark), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(2, 174, 236, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 2px solid var(--success-color);
+            display: block;
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+            border: 2px solid var(--danger-color);
+            display: block;
+        }
+
+        /* Long-term Investment Section */
+        .long-term-form {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .optional-label {
+            font-size: 12px;
+            color: var(--neutral-color);
+            font-weight: normal;
+            margin-left: 5px;
+        }
+
+        /* Bottom Navigation */
+        .navbarModern {
+            width: 100%;
+            height: 80px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+        }
+
+        .navItem {
+            color: var(--primary-ultra-dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-radius: 7px;
+            transition: all 0.3s ease;
+            width: 70px;
+        }
+
+        .navItem.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .navItem i {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .navLabel {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+                padding-bottom: 100px;
+            }
+
+            .trade-form, .long-term-form {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .mode-selector, .trade-type-selector {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbarModern {
+                height: 70px;
+            }
+
+            .navItem {
+                width: 45px;
+                height: 45px;
+            }
+
+            .navItem i {
+                font-size: 12px;
+            }
+
+            .navLabel {
+                font-size: 10px;
+            }
+
+            header {
+                padding: 0 20px;
+            }
+
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            .backText{
+              display: none;
+            }
+        }
+         /* Bottom Navigation */
+        .navbarModern {
+            width: 100%;
+            height: 65px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+            padding: 0 8px;
+        }
+
+        .navItem {
+            color: var(--primary-ultra-dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            width: 55px;
+            height: 45px;
+            flex-shrink: 0;
+        }
+
+        .navItem.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navItem i {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .navLabel {
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logoDiv">
+            <img src="assets/A letter Logo design-Photoroom.png" alt="Altiva Logo" class="logo"/>
+            <h1>ltiva</h1>
+        </div>
+        
+        <a style="display: none;" href="dashboard.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> <span class="backText">Back to Dashboard</span>
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Add Trade</h1>
+        <p class="page-subtitle">Choose your preferred way to record trades</p>
+
+        <!-- Trade Type Selector -->
+        <div class="trade-type-selector">
+            <button class="trade-type-btn active" data-type="trade">Regular Trade</button>
+            <button class="trade-type-btn" data-type="long-term">Long-Term Investment</button>
+        </div>
+
+        <!-- Regular Trade Form -->
+        <div class="trade-form" id="tradeFormSection">
+            <h2 class="section-title">Regular Trade</h2>
+            
+            <!-- Input Mode Selector -->
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="simple">Simple</button>
+                <button class="mode-btn" data-mode="investment">Investment</button>
+                <button class="mode-btn" data-mode="units">Units & Price</button>
+            </div>
+
+            <form class="trade-form" id="tradeForm">
+                <!-- Basic Info -->
+                <div class="form-group">
+                    <label for="tradeDate">Date</label>
+                    <input type="date" id="tradeDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="assetName">Asset Name <span class="optional-label">(Optional)</span></label>
+                    <input type="text" id="assetName" placeholder="e.g., Apple Stock, Bitcoin, Gold">
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category <span class="optional-label">(Optional)</span></label>
+                    <select id="category">
+                        <option value="others">Others</option>
+                        <option value="stocks">Stocks</option>
+                        <option value="crypto">Cryptocurrency</option>
+                        <option value="mutual_funds">Mutual Funds</option>
+                        <option value="forex">Forex</option>
+                        <option value="commodities">Commodities</option>
+                    </select>
+                </div>
+
+                <!-- Simple Mode (Default) -->
+                <div class="input-mode active" id="simple-mode">
+                    <div class="pl-selector">
+                        <button type="button" class="pl-btn profit active" data-type="profit">
+                            <i class="fa-solid fa-arrow-up"></i> Profit
+                        </button>
+                        <button type="button" class="pl-btn loss" data-type="loss">
+                            <i class="fa-solid fa-arrow-down"></i> Loss
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount (₹)</label>
+                        <input type="number" id="amount" placeholder="Enter profit/loss amount" min="0" step="0.01" required>
+                    </div>
+
+                    <!-- Result Display -->
+                    <div class="result-card">
+                        <div class="result-label">Trade Result</div>
+                        <div class="result-amount profit" id="simpleResult">+₹ 0.00</div>
+                        <div class="result-status status-profit" id="simpleStatus">PROFIT</div>
+                    </div>
+                </div>
+
+                <!-- Investment Mode -->
+                <div class="input-mode" id="investment-mode">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="investment">Investment (₹)</label>
+                            <input type="number" id="investment" placeholder="Amount invested" min="0" step="0.01">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="returns">Returns (₹)</label>
+                            <input type="number" id="returns" placeholder="Returns received" step="0.01">
+                        </div>
+                    </div>
+
+                    <!-- Result Display -->
+                    <div class="result-card">
+                        <div class="result-label">Net P&L</div>
+                        <div class="result-amount" id="investmentResult">₹ 0.00</div>
+                        <div class="result-status" id="investmentStatus">NEUTRAL</div>
+                    </div>
+                </div>
+
+                <!-- Units & Price Mode -->
+                <div class="input-mode" id="units-mode">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="unitsBought">Units Bought</label>
+                            <input type="number" id="unitsBought" placeholder="Number of units" min="0" step="0.001">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="buyPrice">Buy Price per Unit (₹)</label>
+                            <input type="number" id="buyPrice" placeholder="Price per unit" min="0" step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="unitsSold">Units Sold</label>
+                            <input type="number" id="unitsSold" placeholder="Number of units" min="0" step="0.001">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sellPrice">Sell Price per Unit (₹)</label>
+                            <input type="number" id="sellPrice" placeholder="Price per unit" min="0" step="0.01">
+                        </div>
+                    </div>
+
+                    <!-- Result Display -->
+                    <div class="result-card">
+                        <div class="result-label">Net P&L</div>
+                        <div class="result-amount" id="unitsResult">₹ 0.00</div>
+                        <div class="result-status" id="unitsStatus">NEUTRAL</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="btn-text">Save Trade</span>
+                </button>
+
+                <div id="message" class="message"></div>
+            </form>
+        </div>
+
+        <!-- Long-Term Investment Form -->
+        <div class="long-term-form" id="longTermFormSection" style="display: none;">
+            <h2 class="section-title">Long-Term Investment</h2>
+            
+            <form id="longTermForm">
+                <div class="form-group">
+                    <label for="ltAssetName">Asset Name</label>
+                    <input type="text" id="ltAssetName" placeholder="e.g., Apple Stock, Bitcoin, Gold" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ltCategory">Category</label>
+                    <select id="ltCategory">
+                        <option value="stocks">Stocks</option>
+                        <option value="crypto">Cryptocurrency</option>
+                        <option value="mutual_funds">Mutual Funds</option>
+                        <option value="forex">Forex</option>
+                        <option value="commodities">Commodities</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ltDate">Purchase Date</label>
+                    <input type="date" id="ltDate" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ltUnits">Units Bought</label>
+                        <input type="number" id="ltUnits" placeholder="Number of units" min="0" step="0.001" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ltBuyPrice">Buy Price per Unit (₹)</label>
+                        <input type="number" id="ltBuyPrice" placeholder="Price per unit" min="0" step="0.01" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ltNotes">Notes (Optional)</label>
+                    <input type="text" id="ltNotes" placeholder="Add any notes about this investment">
+                </div>
+
+                <button type="submit" class="submit-btn" id="ltSubmitBtn">
+                    <span class="btn-text">Save Investment</span>
+                </button>
+
+                <div id="ltMessage" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <footer>
+        <div class="navbarModern">
+            <a href="dashboard.html" class="navItem">
+                <i class="fa-solid fa-house"></i>
+                <span class="navLabel">Home</span>
+            </a>
+            <a href="trade.html" class="navItem active">
+                <i class="fa-solid fa-plus"></i>
+                <span class="navLabel">Trade</span>
+            </a>
+            <a href="calendar.html" class="navItem">
+                <i class="fa-solid fa-calendar"></i>
+                <span class="navLabel">Calendar</span>
+            </a>
+            <a href="history.html" class="navItem">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="navLabel">History</span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc,
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAGtlTRl6YCy9K6KkVdggFDra78vyPlRPI",
+            authDomain: "altiva-b8b07.firebaseapp.com",
+            projectId: "altiva-b8b07",
+            storageBucket: "altiva-b8b07.firebasestorage.app",
+            messagingSenderId: "181781306925",
+            appId: "1:181781306925:web:d7a3f9e51a79219d4562a4",
+            measurementId: "G-6999KN5RGR"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const tradeForm = document.getElementById('tradeForm');
+        const longTermForm = document.getElementById('longTermForm');
+        const tradeDateInput = document.getElementById('tradeDate');
+        const assetNameInput = document.getElementById('assetName');
+        const categoryInput = document.getElementById('category');
+        const ltDateInput = document.getElementById('ltDate');
+        const submitBtn = document.getElementById('submitBtn');
+        const ltSubmitBtn = document.getElementById('ltSubmitBtn');
+        const messageDiv = document.getElementById('message');
+        const ltMessageDiv = document.getElementById('ltMessage');
+        const modeButtons = document.querySelectorAll('.mode-btn');
+        const tradeTypeButtons = document.querySelectorAll('.trade-type-btn');
+        const plButtons = document.querySelectorAll('.pl-btn');
+        
+        let currentUser = null;
+        let currentMode = 'simple';
+        let currentPLType = 'profit';
+        let currentTradeType = 'trade';
+
+        // Set today's date as default
+        tradeDateInput.valueAsDate = new Date();
+        ltDateInput.valueAsDate = new Date();
+
+        // Trade Type selection
+        tradeTypeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tradeTypeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentTradeType = button.dataset.type;
+                
+                // Show/hide forms based on selection
+                if (currentTradeType === 'trade') {
+                    document.getElementById('tradeFormSection').style.display = 'block';
+                    document.getElementById('longTermFormSection').style.display = 'none';
+                } else {
+                    document.getElementById('tradeFormSection').style.display = 'none';
+                    document.getElementById('longTermFormSection').style.display = 'block';
+                }
+            });
+        });
+
+        // Mode selection
+        modeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                modeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentMode = button.dataset.mode;
+                
+                // Hide all modes
+                document.querySelectorAll('.input-mode').forEach(mode => {
+                    mode.classList.remove('active');
+                });
+                
+                // Show selected mode
+                document.getElementById(`${currentMode}-mode`).classList.add('active');
+            });
+        });
+
+        // Profit/Loss selection
+        plButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                plButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentPLType = button.dataset.type;
+                updateSimpleResult();
+            });
+        });
+
+        // Update simple mode result
+        function updateSimpleResult() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            const resultElement = document.getElementById('simpleResult');
+            const statusElement = document.getElementById('simpleStatus');
+            
+            if (currentPLType === 'profit') {
+                resultElement.textContent = `+₹ ${amount.toFixed(2)}`;
+                resultElement.className = 'result-amount profit';
+                statusElement.textContent = 'PROFIT';
+                statusElement.className = 'result-status status-profit';
+            } else {
+                resultElement.textContent = `-₹ ${amount.toFixed(2)}`;
+                resultElement.className = 'result-amount loss';
+                statusElement.textContent = 'LOSS';
+                statusElement.className = 'result-status status-loss';
+            }
+        }
+
+        // Update investment mode result
+        function updateInvestmentResult() {
+            const investment = parseFloat(document.getElementById('investment').value) || 0;
+            const returns = parseFloat(document.getElementById('returns').value) || 0;
+            const netAmount = returns - investment;
+            
+            const resultElement = document.getElementById('investmentResult');
+            const statusElement = document.getElementById('investmentStatus');
+            
+            if (netAmount > 0) {
+                resultElement.textContent = `+₹ ${Math.abs(netAmount).toFixed(2)}`;
+                resultElement.className = 'result-amount profit';
+                statusElement.textContent = 'PROFIT';
+                statusElement.className = 'result-status status-profit';
+            } else if (netAmount < 0) {
+                resultElement.textContent = `-₹ ${Math.abs(netAmount).toFixed(2)}`;
+                resultElement.className = 'result-amount loss';
+                statusElement.textContent = 'LOSS';
+                statusElement.className = 'result-status status-loss';
+            } else {
+                resultElement.textContent = `₹ ${netAmount.toFixed(2)}`;
+                resultElement.className = 'result-amount neutral';
+                statusElement.textContent = 'NEUTRAL';
+                statusElement.className = 'result-status';
+            }
+        }
+
+        // Update units mode result
+        function updateUnitsResult() {
+            const unitsBought = parseFloat(document.getElementById('unitsBought').value) || 0;
+            const buyPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
+            const unitsSold = parseFloat(document.getElementById('unitsSold').value) || 0;
+            const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+            
+            const totalInvestment = unitsBought * buyPrice;
+            const totalReturns = unitsSold * sellPrice;
+            const netAmount = totalReturns - totalInvestment;
+            
+            const resultElement = document.getElementById('unitsResult');
+            const statusElement = document.getElementById('unitsStatus');
+            
+            if (netAmount > 0) {
+                resultElement.textContent = `+₹ ${Math.abs(netAmount).toFixed(2)}`;
+                resultElement.className = 'result-amount profit';
+                statusElement.textContent = 'PROFIT';
+                statusElement.className = 'result-status status-profit';
+            } else if (netAmount < 0) {
+                resultElement.textContent = `-₹ ${Math.abs(netAmount).toFixed(2)}`;
+                resultElement.className = 'result-amount loss';
+                statusElement.textContent = 'LOSS';
+                statusElement.className = 'result-status status-loss';
+            } else {
+                resultElement.textContent = `₹ ${netAmount.toFixed(2)}`;
+                resultElement.className = 'result-amount neutral';
+                statusElement.textContent = 'NEUTRAL';
+                statusElement.className = 'result-status';
+            }
+        }
+
+        // Event listeners for real-time updates
+        document.getElementById('amount').addEventListener('input', updateSimpleResult);
+        document.getElementById('investment').addEventListener('input', updateInvestmentResult);
+        document.getElementById('returns').addEventListener('input', updateInvestmentResult);
+        document.getElementById('unitsBought').addEventListener('input', updateUnitsResult);
+        document.getElementById('buyPrice').addEventListener('input', updateUnitsResult);
+        document.getElementById('unitsSold').addEventListener('input', updateUnitsResult);
+        document.getElementById('sellPrice').addEventListener('input', updateUnitsResult);
+
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                window.location.href = 'auth.html';
+            }
+        });
+
+        // Regular Trade Form submission
+        tradeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showMessage('Please log in to save trades', 'error', messageDiv);
+                return;
+            }
+
+            // Validate form
+            const tradeDate = tradeDateInput.value;
+            let assetName = assetNameInput.value.trim();
+            let category = categoryInput.value;
+
+            if (!tradeDate) {
+                showMessage('Please fill in all required fields', 'error', messageDiv);
+                return;
+            }
+
+            // Set defaults if not provided
+            if (!assetName) {
+                assetName = "N/A";
+            }
+            if (!category) {
+                category = "others";
+            }
+
+            let investment = 0;
+            let returns = 0;
+            let netAmount = 0;
+            let status = 'neutral';
+
+            // Calculate based on current mode
+            if (currentMode === 'simple') {
+                const amount = parseFloat(document.getElementById('amount').value) || 0;
+                if (amount <= 0) {
+                    showMessage('Please enter a valid amount', 'error', messageDiv);
+                    return;
+                }
+                
+                if (currentPLType === 'profit') {
+                    investment = amount;
+                    returns = amount * 2; // Assume double for profit
+                    netAmount = amount;
+                    status = 'profit';
+                } else {
+                    investment = amount * 2; // Assume double for loss
+                    returns = amount;
+                    netAmount = -amount;
+                    status = 'loss';
+                }
+            }
+            else if (currentMode === 'investment') {
+                investment = parseFloat(document.getElementById('investment').value) || 0;
+                returns = parseFloat(document.getElementById('returns').value) || 0;
+                
+                if (investment <= 0) {
+                    showMessage('Please enter a valid investment amount', 'error', messageDiv);
+                    return;
+                }
+                
+                netAmount = returns - investment;
+                status = netAmount > 0 ? 'profit' : netAmount < 0 ? 'loss' : 'neutral';
+            }
+            else if (currentMode === 'units') {
+                const unitsBought = parseFloat(document.getElementById('unitsBought').value) || 0;
+                const buyPrice = parseFloat(document.getElementById('buyPrice').value) || 0;
+                const unitsSold = parseFloat(document.getElementById('unitsSold').value) || 0;
+                const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+                
+                if (unitsBought <= 0 || buyPrice <= 0) {
+                    showMessage('Please enter valid buy information', 'error', messageDiv);
+                    return;
+                }
+                
+                investment = unitsBought * buyPrice;
+                returns = unitsSold * sellPrice;
+                netAmount = returns - investment;
+                status = netAmount > 0 ? 'profit' : netAmount < 0 ? 'loss' : 'neutral';
+            }
+
+            // Set loading state
+            setButtonLoading(true, submitBtn);
+
+            try {
+                // Save trade to Firestore
+                const tradeData = {
+                    userId: currentUser.uid,
+                    tradeDate: tradeDate,
+                    category: category,
+                    assetName: assetName,
+                    investment: investment,
+                    returns: returns,
+                    netAmount: Math.abs(netAmount),
+                    status: status,
+                    inputMode: currentMode,
+                    tradeType: 'regular',
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                };
+
+                await addDoc(collection(db, 'trades'), tradeData);
+                
+                showMessage('Trade saved successfully!', 'success', messageDiv);
+                
+                // Reset form after success
+                setTimeout(() => {
+                    tradeForm.reset();
+                    tradeDateInput.valueAsDate = new Date();
+                    categoryInput.value = 'others';
+                    currentPLType = 'profit';
+                    plButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelector('.pl-btn.profit').classList.add('active');
+                    updateSimpleResult();
+                    showMessage('', 'success', messageDiv);
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error saving trade:', error);
+                showMessage('Failed to save trade. Please try again.', 'error', messageDiv);
+            } finally {
+                setButtonLoading(false, submitBtn);
+            }
+        });
+
+        // Long-Term Investment Form submission
+        longTermForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showMessage('Please log in to save investments', 'error', ltMessageDiv);
+                return;
+            }
+
+            // Validate form
+            const ltDate = ltDateInput.value;
+            const ltAssetName = document.getElementById('ltAssetName').value.trim();
+            const ltCategory = document.getElementById('ltCategory').value;
+            const ltUnits = parseFloat(document.getElementById('ltUnits').value) || 0;
+            const ltBuyPrice = parseFloat(document.getElementById('ltBuyPrice').value) || 0;
+            const ltNotes = document.getElementById('ltNotes').value.trim();
+
+            if (!ltDate || !ltAssetName || ltUnits <= 0 || ltBuyPrice <= 0) {
+                showMessage('Please fill in all required fields', 'error', ltMessageDiv);
+                return;
+            }
+
+            // Set loading state
+            setButtonLoading(true, ltSubmitBtn);
+
+            try {
+                // Save long-term investment to Firestore
+                const investmentData = {
+                    userId: currentUser.uid,
+                    purchaseDate: ltDate,
+                    assetName: ltAssetName,
+                    category: ltCategory,
+                    units: ltUnits,
+                    buyPrice: ltBuyPrice,
+                    totalInvestment: ltUnits * ltBuyPrice,
+                    notes: ltNotes || '',
+                    investmentType: 'long-term',
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                };
+
+                await addDoc(collection(db, 'investments'), investmentData);
+                
+                showMessage('Long-term investment saved successfully!', 'success', ltMessageDiv);
+                
+                // Reset form after success
+                setTimeout(() => {
+                    longTermForm.reset();
+                    ltDateInput.valueAsDate = new Date();
+                    document.getElementById('ltCategory').value = 'stocks';
+                    showMessage('', 'success', ltMessageDiv);
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error saving investment:', error);
+                showMessage('Failed to save investment. Please try again.', 'error', ltMessageDiv);
+            } finally {
+                setButtonLoading(false, ltSubmitBtn);
+            }
+        });
+
+        // Helper function to show messages
+        function showMessage(message, type, element) {
+            element.textContent = message;
+            element.className = `message ${type}`;
+        }
+
+        // Helper function to set button loading state
+        function setButtonLoading(isLoading, button) {
+            const btnText = button.querySelector('.btn-text');
+            if (isLoading) {
+                button.disabled = true;
+                btnText.innerHTML = '<span class="loading"></span> Processing...';
+            } else {
+                button.disabled = false;
+                btnText.textContent = button.id === 'ltSubmitBtn' ? 'Save Investment' : 'Save Trade';
+            }
+        }
+    </script>
+</body>
+</html>

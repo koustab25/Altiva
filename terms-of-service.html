@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Altiva</title>
+    <style>
+        :root {
+            --primary-color: #02aeec;
+            --primary-dark: #0399de;
+            --primary-ultra-dark: #053f74;
+            --secondary-color: #50E3C2;
+            --background-color: #F8FAFC;
+            --text-color: #333333;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --neutral-color: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
+            line-height: 1.6;
+        }
+
+        /* Header Styles - UNCHANGED */
+        header {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            width: 25px;
+            height: 30px;
+            border-radius: 12px;
+        }
+
+        .logoDiv {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+        }
+
+        .logoDiv h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-ultra-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .back-btn {
+            margin-left: auto;
+            background: var(--primary-ultra-dark);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            min-height: 36px;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px 15px;
+            padding-bottom: 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 10px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            color: #64748B;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.3;
+            padding: 0 10px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+            margin: 20px 0 10px 0;
+        }
+
+        .content-text {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #4B5563;
+        }
+
+        .content-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .content-list li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #4B5563;
+        }
+
+        .highlight-box {
+            background: rgba(2, 174, 236, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 14px;
+            color: #4B5563;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid var(--primary-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Last Updated */
+        .last-updated {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        /* Bottom Navigation */
+        .navbarModern {
+            width: 100%;
+            height: 65px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+            padding: 0 8px;
+        }
+
+        .navItem {
+            color: var(--primary-ultra-dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            width: 55px;
+            height: 45px;
+            flex-shrink: 0;
+        }
+
+        .navItem.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navItem i {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .navLabel {
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px 10px;
+                padding-bottom: 75px;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+
+            .navbarModern {
+                height: 60px;
+            }
+
+            .navItem {
+                width: 50px;
+                height: 40px;
+            }
+        }
+
+        /* Touch improvements */
+        @media (hover: none) {
+            .back-btn:hover, .nav-link:hover {
+                transform: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logoDiv">
+            <img src="assets/A letter Logo design-Photoroom.png" alt="Altiva Logo" class="logo"/>
+            <h1>ltiva</h1>
+        </div>
+        
+        <a href="settings.html" class="back-btn">
+            <span><i class="fa-solid fa-arrow-left"></i></span>
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Terms of Service</h1>
+        <p class="page-subtitle">Please read these terms carefully before using Altiva</p>
+
+        <!-- Terms Content -->
+        <div class="content-section">
+            <h2 class="section-title">Agreement to Terms</h2>
+            
+            <div class="content-text">
+                <p>Welcome to Altiva! These terms and conditions outline the rules and regulations for the use of Altiva's mobile application.</p>
+                <p>By accessing and using Altiva, you accept and agree to be bound by the terms and provision of this agreement.</p>
+            </div>
+
+            <h3 class="section-subtitle">1. Use License</h3>
+            <div class="content-text">
+                <p>Permission is granted to temporarily use Altiva for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title.</p>
+            </div>
+
+            <h3 class="section-subtitle">2. User Account</h3>
+            <div class="content-text">
+                <p>When you create an account with us, you must provide accurate information. You are responsible for safeguarding your account and for all activities that occur under your account.</p>
+            </div>
+
+            <h3 class="section-subtitle">3. Investment Information</h3>
+            <div class="content-text">
+                <p>Altiva is designed for tracking and analyzing your investments. However:</p>
+                <ul class="content-list">
+                    <li>We do not provide financial advice</li>
+                    <li>All investment decisions are your own responsibility</li>
+                    <li>Past performance does not guarantee future results</li>
+                    <li>You should consult with qualified financial advisors before making investment decisions</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">4. Prohibited Uses</h3>
+            <div class="content-text">
+                <p>You may not use Altiva:</p>
+                <ul class="content-list">
+                    <li>In any way that violates applicable laws or regulations</li>
+                    <li>To transmit harmful code or malicious software</li>
+                    <li>To collect or track personal information of others</li>
+                    <li>For any fraudulent or unlawful purpose</li>
+                    <li>To impersonate any person or entity</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">5. Intellectual Property</h3>
+            <div class="content-text">
+                <p>The Altiva application and its original content, features, and functionality are owned by Altiva and are protected by international copyright, trademark, and other intellectual property laws.</p>
+            </div>
+
+            <h3 class="section-subtitle">6. Termination</h3>
+            <div class="content-text">
+                <p>We may terminate or suspend your account immediately, without prior notice, for conduct that we believe violates these Terms of Service or is harmful to other users, us, or third parties, or for any other reason.</p>
+            </div>
+
+            <h3 class="section-subtitle">7. Limitation of Liability</h3>
+            <div class="content-text">
+                <p>In no event shall Altiva, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.</p>
+            </div>
+
+            <h3 class="section-subtitle">8. Changes to Terms</h3>
+            <div class="content-text">
+                <p>We reserve the right to modify these terms at any time. We will notify users of any material changes via the application or email. Your continued use of the service after any changes constitutes acceptance of the new terms.</p>
+            </div>
+
+            <h3 class="section-subtitle">9. Governing Law</h3>
+            <div class="content-text">
+                <p>These Terms shall be governed and construed in accordance with the laws of India, without regard to its conflict of law provisions.</p>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Important Notice:</strong> By using Altiva, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you must not use our application.</p>
+            </div>
+
+            <div class="nav-links">
+                <a href="privacy-policy.html" class="nav-link">
+                    <i class="fa-solid fa-shield"></i> Privacy Policy
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fa-solid fa-gear"></i> Back to Settings
+                </a>
+            </div>
+        </div>
+
+        <div class="last-updated">
+            <p>Last Updated: January 2024</p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <footer>
+        <div class="navbarModern">
+            <a href="dashboard.html" class="navItem">
+                <i class="fa-solid fa-house"></i>
+                <span class="navLabel">Home</span>
+            </a>
+            <a href="trade.html" class="navItem">
+                <i class="fa-solid fa-plus"></i>
+                <span class="navLabel">Trade</span>
+            </a>
+            <a href="calendar.html" class="navItem">
+                <i class="fa-solid fa-calendar"></i>
+                <span class="navLabel">Calendar</span>
+            </a>
+            <a href="history.html" class="navItem">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="navLabel">History</span>
+            </a>
+        </div>
+    </footer>
+</body>
+</html>

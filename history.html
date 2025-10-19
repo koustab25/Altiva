@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade History - Altiva</title>
+    <style>
+        :root {
+            --primary-color: #02aeec;
+            --primary-dark: #0399de;
+            --primary-ultra-dark: #053f74;
+            --secondary-color: #50E3C2;
+            --background-color: #F8FAFC;
+            --text-color: #333333;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --neutral-color: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
+        }
+
+       /* Header Styles - UNCHANGED */
+        header {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            width: 25px;
+            height: 30px;
+            border-radius: 12px;
+        }
+
+        .logoDiv {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+        }
+
+        .logoDiv h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-ultra-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .back-btn {
+            margin-left: auto;
+            background: var(--primary-ultra-dark);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content - MOBILE OPTIMIZED */
+        .main-content {
+            padding: 20px 15px;
+            padding-bottom: 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 8px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            color: #64748B;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.3;
+            padding: 0 10px;
+        }
+
+        /* Controls Section - MOBILE OPTIMIZED */
+        .controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .filter-controls {
+            display: none; /* Hidden on mobile */
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--success-color), #0da271);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 15px;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .download-info {
+            font-size: 12px;
+            color: #64748B;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        /* Summary Cards - MOBILE OPTIMIZED */
+        .summary-cards {
+            display: none; /* Hidden on mobile */
+        }
+
+        /* History Container - MOBILE OPTIMIZED */
+        .history-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        /* Day Sections - MOBILE OPTIMIZED */
+        .day-section {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .day-section:last-child {
+            border-bottom: none;
+        }
+
+        .day-header {
+            background: var(--background-color);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            gap: 12px;
+        }
+
+        .day-header:hover {
+            background: rgba(2, 174, 236, 0.05);
+        }
+
+        .day-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .day-date {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .day-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .day-stat {
+            text-align: center;
+        }
+
+        .day-stat-label {
+            font-size: 10px;
+            color: #64748B;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .day-stat-value {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .profit-stat { color: var(--success-color); }
+        .loss-stat { color: var(--danger-color); }
+
+        .day-toggle {
+            color: var(--primary-ultra-dark);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .day-toggle.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Trades List - MOBILE OPTIMIZED */
+        .trades-list {
+            display: none;
+            padding: 0;
+        }
+
+        .trades-list.expanded {
+            display: block;
+        }
+
+        .trade-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        .trade-item:last-child {
+            border-bottom: none;
+        }
+
+        .trade-item:hover {
+            background: rgba(2, 174, 236, 0.02);
+        }
+
+        .trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .trade-asset {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .trade-symbol {
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 4px;
+            font-size: 15px;
+            line-height: 1.2;
+        }
+
+        .trade-category {
+            font-size: 11px;
+            color: #64748B;
+            background: var(--background-color);
+            padding: 3px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .trade-pnl {
+            font-weight: 700;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .pnl-profit { color: var(--success-color); }
+        .pnl-loss { color: var(--danger-color); }
+        .pnl-neutral { color: var(--neutral-color); }
+
+        .trade-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .trade-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .detail-label {
+            font-size: 10px;
+            color: #64748B;
+        }
+
+        .detail-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+        }
+
+        .trade-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .trade-status {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .status-profit { 
+            background: rgba(16, 185, 129, 0.1); 
+            color: var(--success-color);
+        }
+        .status-loss { 
+            background: rgba(239, 68, 68, 0.1); 
+            color: var(--danger-color);
+        }
+        .status-neutral { 
+            background: rgba(107, 114, 128, 0.1); 
+            color: var(--neutral-color);
+        }
+
+        .trade-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--primary-ultra-dark);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            background: var(--background-color);
+            transform: scale(1.1);
+        }
+
+        /* Long Term Investment Button - MOBILE OPTIMIZED */
+        .longtermInvestmentPageBtn {
+            background-color: var(--primary-dark);
+            padding: 14px 20px;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 280px;
+            margin: 20px auto 0;
+            font-size: 15px;
+        }
+
+        .longtermInvestmentPageBtn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Empty State - MOBILE OPTIMIZED */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748B;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            color: var(--neutral-color);
+            margin-bottom: 16px;
+        }
+
+        .empty-title {
+            font-size: 20px;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .empty-description {
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Loading State - MOBILE OPTIMIZED */
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748B;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(2, 174, 236, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Bottom Navigation - UNCHANGED */
+        .navbarModern {
+            width: 100%;
+            height: 80px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+        }
+
+        .navItem {
+            color: var(--primary-ultra-dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-radius: 7px;
+            transition: all 0.3s ease;
+            width: 70px;
+        }
+
+        .navItem.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .navItem i {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .navLabel {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Mobile Responsive Improvements */
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px 12px;
+                padding-bottom: 90px;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .page-subtitle {
+                font-size: 13px;
+                margin-bottom: 20px;
+            }
+
+            .day-header {
+                padding: 14px;
+            }
+
+            .day-date {
+                font-size: 13px;
+            }
+
+            .day-stats {
+                gap: 8px;
+            }
+
+            .day-stat-label {
+                font-size: 9px;
+            }
+
+            .day-stat-value {
+                font-size: 11px;
+            }
+
+            .trade-item {
+                padding: 14px;
+            }
+
+            .trade-symbol {
+                font-size: 14px;
+            }
+
+            .trade-details {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .empty-icon {
+                font-size: 40px;
+            }
+
+            .empty-title {
+                font-size: 18px;
+            }
+
+            .empty-description {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .main-content {
+                padding: 12px 10px;
+                padding-bottom: 85px;
+            }
+
+            .day-header {
+                padding: 12px;
+            }
+
+            .trade-item {
+                padding: 12px;
+            }
+
+            .download-btn, .longtermInvestmentPageBtn {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+        }
+
+        /* Touch improvements for mobile */
+        @media (hover: none) {
+            .day-header:hover {
+                background: var(--background-color);
+            }
+
+            .trade-item:hover {
+                background: transparent;
+            }
+
+            .download-btn:hover, .longtermInvestmentPageBtn:hover {
+                transform: none;
+            }
+
+            .action-btn:hover {
+                transform: none;
+            }
+        }
+         /* Bottom Navigation */
+        .navbarModern {
+            width: 100%;
+            height: 65px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+            padding: 0 8px;
+        }
+
+        .navItem {
+            color: var(--primary-ultra-dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            width: 55px;
+            height: 45px;
+            flex-shrink: 0;
+        }
+
+        .navItem.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navItem i {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .navLabel {
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header - UNCHANGED -->
+    <header>
+        <div class="logoDiv">
+            <img src="assets/A letter Logo design-Photoroom.png" alt="Altiva Logo" class="logo"/>
+            <h1>ltiva</h1>
+        </div>
+        
+        <a style="display: none;" href="dashboard.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </a>
+    </header>
+
+    <!-- Main Content - MOBILE OPTIMIZED -->
+    <div class="main-content">
+        <h1 class="page-title">Trade History</h1>
+        <p class="page-subtitle">Review your last 10 days of trading activity</p>
+
+        <!-- Controls Section - MOBILE OPTIMIZED -->
+        <div class="controls-section">
+            <button class="download-btn" id="downloadBtn">
+                <i class="fa-solid fa-download"></i> Download CSV
+            </button>
+            <p class="download-info">To view all of your trading history, download the CSV file</p>
+        </div>
+
+        <!-- History Container - MOBILE OPTIMIZED -->
+        <div class="history-container" id="historyContainer">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading your trade history...</p>
+            </div>
+        </div>
+
+        <!-- Long Term Investment Button - MOBILE OPTIMIZED -->
+        <button onclick="window.location.href='investments-history.html'" class="longtermInvestmentPageBtn">
+            <i class="fa-solid fa-chart-line"></i> Long Term Investments
+        </button>
+    </div>
+
+    <!-- Bottom Navigation - UNCHANGED -->
+    <footer>
+        <div class="navbarModern">
+            <a href="dashboard.html" class="navItem">
+                <i class="fa-solid fa-house"></i>
+                <span class="navLabel">Home</span>
+            </a>
+            <a href="trade.html" class="navItem">
+                <i class="fa-solid fa-plus"></i>
+                <span class="navLabel">Trade</span>
+            </a>
+            <a href="calendar.html" class="navItem">
+                <i class="fa-solid fa-calendar"></i>
+                <span class="navLabel">Calendar</span>
+            </a>
+            <a href="history.html" class="navItem active">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="navLabel">History</span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            query, 
+            where, 
+            getDocs,
+            deleteDoc,
+            doc 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAGtlTRl6YCy9K6KkVdggFDra78vyPlRPI",
+            authDomain: "altiva-b8b07.firebaseapp.com",
+            projectId: "altiva-b8b07",
+            storageBucket: "altiva-b8b07.firebasestorage.app",
+            messagingSenderId: "181781306925",
+            appId: "1:181781306925:web:d7a3f9e51a79219d4562a4",
+            measurementId: "G-6999KN5RGR"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const historyContainer = document.getElementById('historyContainer');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let currentUser = null;
+        let allTrades = [];
+
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                loadTradeHistory();
+            } else {
+                window.location.href = 'auth.html';
+            }
+        });
+
+        // Load trade history
+        async function loadTradeHistory() {
+            try {
+                console.log('Loading trade history for user:', currentUser.uid);
+                
+                const q = query(
+                    collection(db, 'trades'),
+                    where('userId', '==', currentUser.uid)
+                );
+                
+                const querySnapshot = await getDocs(q);
+                allTrades = [];
+                
+                querySnapshot.forEach((doc) => {
+                    const trade = doc.data();
+                    allTrades.push({
+                        id: doc.id,
+                        tradeDate: trade.tradeDate,
+                        investment: parseFloat(trade.investment) || 0,
+                        returns: parseFloat(trade.returns) || 0,
+                        netAmount: parseFloat(trade.netAmount) || 0,
+                        status: trade.status,
+                        assetName: trade.assetName || 'Unknown Asset',
+                        category: trade.category || 'others',
+                        createdAt: trade.createdAt
+                    });
+                });
+
+                console.log(`Loaded ${allTrades.length} trades`);
+                
+                // Sort trades by date (newest first)
+                allTrades.sort((a, b) => new Date(b.tradeDate) - new Date(a.tradeDate));
+                
+                renderHistory();
+
+            } catch (error) {
+                console.error('Error loading trade history:', error);
+                showErrorState();
+            }
+        }
+
+        // Get trades from last 10 days
+        function getLast10DaysTrades() {
+            const tenDaysAgo = new Date();
+            tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+            
+            return allTrades.filter(trade => {
+                const tradeDate = new Date(trade.tradeDate);
+                return tradeDate >= tenDaysAgo;
+            });
+        }
+
+        // Render history view - MOBILE OPTIMIZED
+        function renderHistory() {
+            const last10DaysTrades = getLast10DaysTrades();
+            
+            if (last10DaysTrades.length === 0) {
+                showEmptyState();
+                return;
+            }
+
+            // Group trades by date
+            const tradesByDate = {};
+            last10DaysTrades.forEach(trade => {
+                if (!tradesByDate[trade.tradeDate]) {
+                    tradesByDate[trade.tradeDate] = [];
+                }
+                tradesByDate[trade.tradeDate].push(trade);
+            });
+
+            // Sort dates in descending order
+            const sortedDates = Object.keys(tradesByDate).sort((a, b) => new Date(b) - new Date(a));
+
+            let historyHTML = '';
+
+            sortedDates.forEach(date => {
+                const dateTrades = tradesByDate[date];
+                const dayStats = calculateDayStats(dateTrades);
+                
+                const dateObj = new Date(date);
+                const formattedDate = dateObj.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                historyHTML += `
+                    <div class="day-section">
+                        <div class="day-header" onclick="toggleDay('${date}')">
+                            <div class="day-info">
+                                <div class="day-date">${formattedDate}</div>
+                                <div class="day-stats">
+                                    <div class="day-stat">
+                                        <div class="day-stat-label">Invested</div>
+                                        <div class="day-stat-value">₹${dayStats.totalInvestment.toFixed(0)}</div>
+                                    </div>
+                                    <div class="day-stat">
+                                        <div class="day-stat-label">Returns</div>
+                                        <div class="day-stat-value">₹${dayStats.totalReturns.toFixed(0)}</div>
+                                    </div>
+                                    <div class="day-stat">
+                                        <div class="day-stat-label">P&L</div>
+                                        <div class="day-stat-value ${dayStats.netPnL > 0 ? 'profit-stat' : dayStats.netPnL < 0 ? 'loss-stat' : ''}">
+                                            ${dayStats.netPnL > 0 ? '+' : ''}₹${Math.abs(dayStats.netPnL).toFixed(0)}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-toggle" id="toggle-${date}">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="trades-list" id="trades-${date}">
+                            ${renderTradesList(dateTrades)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            historyContainer.innerHTML = historyHTML;
+        }
+
+        // Calculate day statistics
+        function calculateDayStats(trades) {
+            let totalInvestment = 0;
+            let totalReturns = 0;
+
+            trades.forEach(trade => {
+                totalInvestment += trade.investment;
+                totalReturns += trade.returns;
+            });
+
+            const netPnL = totalReturns - totalInvestment;
+
+            return {
+                totalInvestment,
+                totalReturns,
+                netPnL
+            };
+        }
+
+        // Render trades list for a day - MOBILE OPTIMIZED
+        function renderTradesList(trades) {
+            return trades.map(trade => {
+                const pnl = trade.returns - trade.investment;
+                const pnlClass = pnl > 0 ? 'pnl-profit' : pnl < 0 ? 'pnl-loss' : 'pnl-neutral';
+                const pnlSign = pnl > 0 ? '+' : '';
+
+                return `
+                    <div class="trade-item" data-trade-id="${trade.id}">
+                        <div class="trade-header">
+                            <div class="trade-asset">
+                                <div class="trade-symbol">${trade.assetName}</div>
+                                <div class="trade-category">${trade.category}</div>
+                            </div>
+                            <div class="trade-pnl ${pnlClass}">${pnlSign}₹${Math.abs(pnl).toFixed(2)}</div>
+                        </div>
+                        <div class="trade-details">
+                            <div class="trade-detail">
+                                <div class="detail-label">Investment</div>
+                                <div class="detail-value">₹${trade.investment.toFixed(2)}</div>
+                            </div>
+                            <div class="trade-detail">
+                                <div class="detail-label">Returns</div>
+                                <div class="detail-value">₹${trade.returns.toFixed(2)}</div>
+                            </div>
+                        </div>
+                        <div class="trade-footer">
+                            <div class="trade-status status-${trade.status}">${trade.status}</div>
+                            <div class="trade-actions">
+                                <button class="action-btn" onclick="deleteTrade('${trade.id}')" title="Delete Trade">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle day expansion
+        function toggleDay(date) {
+            const tradesList = document.getElementById(`trades-${date}`);
+            const toggleIcon = document.getElementById(`toggle-${date}`);
+            
+            tradesList.classList.toggle('expanded');
+            toggleIcon.classList.toggle('rotated');
+        }
+
+        // Delete trade
+        async function deleteTrade(tradeId) {
+            if (!confirm('Are you sure you want to delete this trade?')) {
+                return;
+            }
+
+            try {
+                await deleteDoc(doc(db, 'trades', tradeId));
+                console.log('Trade deleted:', tradeId);
+                
+                // Remove from local array and re-render
+                allTrades = allTrades.filter(trade => trade.id !== tradeId);
+                renderHistory();
+                
+            } catch (error) {
+                console.error('Error deleting trade:', error);
+                alert('Error deleting trade. Please try again.');
+            }
+        }
+
+        // Download CSV
+        function downloadCSV() {
+            const last10DaysTrades = getLast10DaysTrades();
+            
+            if (last10DaysTrades.length === 0) {
+                alert('No trades to download.');
+                return;
+            }
+
+            // CSV headers
+            let csv = 'Date,Asset,Category,Investment,Returns,Net P&L,Status\n';
+            
+            // Add trade data
+            last10DaysTrades.forEach(trade => {
+                const pnl = trade.returns - trade.investment;
+                const pnlSign = pnl > 0 ? '+' : '';
+                
+                csv += `"${trade.tradeDate}","${trade.assetName}","${trade.category}",${trade.investment},${trade.returns},"${pnlSign}${Math.abs(pnl)}","${trade.status}"\n`;
+            });
+
+            // Create and trigger download
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `altiva-trades-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Show empty state - MOBILE OPTIMIZED
+        function showEmptyState() {
+            historyContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="empty-title">No Trades Yet</h3>
+                    <p class="empty-description">
+                        You haven't made any trades in the last 10 days. Start tracking your investments to see your history here!
+                    </p>
+                    <a href="trade.html" class="download-btn" style="text-decoration: none;">
+                        <i class="fa-solid fa-plus"></i> Add Your First Trade
+                    </a>
+                </div>
+            `;
+        }
+
+        // Show error state - MOBILE OPTIMIZED
+        function showErrorState() {
+            historyContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon" style="color: var(--danger-color);">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h3 class="empty-title">Error Loading History</h3>
+                    <p class="empty-description">
+                        There was a problem loading your trade history. Please check your connection and try again.
+                    </p>
+                    <button onclick="location.reload()" class="download-btn">
+                        <i class="fa-solid fa-refresh"></i> Try Again
+                    </button>
+                </div>
+            `;
+        }
+
+        // Event listeners
+        downloadBtn.addEventListener('click', downloadCSV);
+
+        // Make functions global for HTML onclick
+        window.toggleDay = toggleDay;
+        window.deleteTrade = deleteTrade;
+    </script>
+</body>
+</html>

@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings & Profile - Altiva</title>
+    <style>
+        :root {
+            --primary-color: #02aeec;
+            --primary-dark: #0399de;
+            --primary-ultra-dark: #053f74;
+            --secondary-color: #50E3C2;
+            --background-color: #F8FAFC;
+            --text-color: #333333;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --neutral-color: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
+        }
+
+       /* Header Styles - UNCHANGED */
+        header {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            width: 25px;
+            height: 30px;
+            border-radius: 12px;
+        }
+
+        .logoDiv {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+        }
+
+        .logoDiv h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-ultra-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            margin-left: auto;
+            background: var(--primary-ultra-dark);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            min-height: 36px;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 15px 12px;
+            padding-bottom: 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 6px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            color: #64748B;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.3;
+            padding: 0 10px;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-ultra-dark), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .profile-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .profile-email {
+            font-size: 14px;
+            color: #64748B;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .profile-stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #64748B;
+            line-height: 1.2;
+        }
+
+        /* Settings Sections */
+        .settings-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--primary-ultra-dark);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+            line-height: 1.2;
+        }
+
+        .settings-list {
+            padding: 0;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-item:hover {
+            background: rgba(2, 174, 236, 0.05);
+        }
+
+        .setting-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .setting-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .setting-desc {
+            font-size: 12px;
+            color: #64748B;
+            line-height: 1.3;
+        }
+
+        .setting-action {
+            color: var(--primary-color);
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #64748B;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--border-color);
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: var(--background-color);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(2, 174, 236, 0.1);
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--background-color);
+            color: var(--primary-ultra-dark);
+            border: 1.5px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+            font-size: 13px;
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1.5px solid var(--success-color);
+            display: block;
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+            border: 1.5px solid var(--danger-color);
+            display: block;
+        }
+
+        /* Bottom Navigation */
+        .navbarModern {
+            width: 100%;
+            height: 65px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+            padding: 0 8px;
+        }
+
+        .navItem {
+            color: var(--primary-ultra-dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            width: 55px;
+            height: 45px;
+            flex-shrink: 0;
+        }
+
+        .navItem.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navItem i {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .navLabel {
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 12px 10px;
+                padding-bottom: 75px;
+            }
+
+            .profile-header {
+                padding: 15px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .modal-content {
+                max-width: 100%;
+            }
+        }
+
+      
+        /* Touch improvements */
+        @media (hover: none) {
+            .back-btn:hover, .btn:hover {
+                transform: none;
+            }
+
+            .setting-item:hover {
+                background: transparent;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logoDiv">
+            <img src="assets/A letter Logo design-Photoroom.png" alt="Altiva Logo" class="logo"/>
+            <h1>ltiva</h1>
+        </div>
+        
+        <a href="dashboard.html" class="back-btn">
+            <span><i class="fa-solid fa-arrow-left"></i></span>
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Settings & Profile</h1>
+        <p class="page-subtitle">Manage your account and preferences</p>
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-avatar" id="userAvatar">
+                <!-- Initials will be set by JavaScript -->
+            </div>
+            <div class="profile-info">
+                <div class="profile-name" id="userName">Loading...</div>
+                <div class="profile-email" id="userEmail">Loading...</div>
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="stat-value" id="totalTrades">0</div>
+                        <div class="stat-label">Total Trades</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="stat-value" id="memberSince">-</div>
+                        <div class="stat-label">Member Since</div>
+                    </div>
+                    <div style="display: none;" class="profile-stat">
+                        <div class="stat-value" id="winRate">0%</div>
+                        <div class="stat-label">Win Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="section-title">Account Settings</div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item" id="editProfileBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Edit Profile</div>
+                        <div class="setting-desc">Update your personal information</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="setting-item" id="changePasswordBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Change Password</div>
+                        <div class="setting-desc">Update your account password</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="setting-item" id="changeEmailBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Change Email</div>
+                        <div class="setting-desc">Update your email address</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preferences -->
+        <div style="display: none;" class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fa-solid fa-sliders"></i>
+                </div>
+                <div class="section-title">Preferences</div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Dark Mode</div>
+                        <div class="setting-desc">Switch between light and dark themes</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Notifications</div>
+                        <div class="setting-desc">Receive alerts for portfolio updates</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="notificationsToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-name">Biometric Login</div>
+                        <div class="setting-desc">Use fingerprint or face recognition</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="biometricToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item" id="currencyBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Currency</div>
+                        <div class="setting-desc">Set your preferred currency</div>
+                    </div>
+                    <div class="setting-action">
+                        <span id="currentCurrency">INR</span> <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data & Privacy -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fa-solid fa-shield"></i>
+                </div>
+                <div class="section-title">Data & Privacy</div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item" id="exportDataBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Export Data</div>
+                        <div class="setting-desc">Download your trading history</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="setting-item" id="privacyBtn">
+                    <div class="setting-info">
+                        <div onclick="window.location.href='privacy-policy.html'" class="setting-name">Privacy Policy</div>
+                        <div class="setting-desc">Review how we handle your data</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="setting-item" id="termsBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Terms of Service</div>
+                        <div class="setting-desc">Review our terms and conditions</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fa-solid fa-circle-question"></i>
+                </div>
+                <div class="section-title">Support</div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item" id="helpBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Help & Support</div>
+                        <div class="setting-desc">Get help with using Altiva</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div style="display: none;" class="setting-item" id="feedbackBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Send Feedback</div>
+                        <div class="setting-desc">Share your thoughts with us</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="setting-item" id="aboutBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">About Altiva</div>
+                        <div class="setting-desc">Learn more about our app</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Actions -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+                <div class="section-title">Account Actions</div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item" id="logoutBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Logout</div>
+                        <div class="setting-desc">Sign out of your account</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </div>
+                </div>
+                <div class="setting-item" id="deleteAccountBtn">
+                    <div class="setting-info">
+                        <div class="setting-name">Delete Account</div>
+                        <div class="setting-desc">Permanently delete your account and data</div>
+                    </div>
+                    <div class="setting-action" style="color: var(--danger-color);">
+                        <i class="fa-solid fa-trash"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Profile</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    <div id="profileMessage" class="message"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelProfileEdit">Cancel</button>
+                <button class="btn btn-primary" id="saveProfile">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Password</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <div id="passwordMessage" class="message"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelPasswordChange">Cancel</button>
+                <button class="btn btn-primary" id="savePassword">Update Password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Email Modal -->
+    <div class="modal" id="changeEmailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Email</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="changeEmailForm">
+                    <div class="form-group">
+                        <label for="newEmail">New Email Address</label>
+                        <input type="email" id="newEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailPassword">Current Password</label>
+                        <input type="password" id="emailPassword" required>
+                    </div>
+                    <div id="emailMessage" class="message"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelEmailChange">Cancel</button>
+                <button class="btn btn-primary" id="saveEmail">Update Email</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Currency Modal -->
+    <div class="modal" id="currencyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Select Currency</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-list">
+                    <div class="setting-item currency-option" data-currency="INR">
+                        <div class="setting-info">
+                            <div class="setting-name">Indian Rupee (₹)</div>
+                            <div class="setting-desc">INR - Indian Rupee</div>
+                        </div>
+                        <div class="setting-action">
+                            <i class="fa-solid fa-check" style="display: none;"></i>
+                        </div>
+                    </div>
+                    <div class="setting-item currency-option" data-currency="USD">
+                        <div class="setting-info">
+                            <div class="setting-name">US Dollar ($)</div>
+                            <div class="setting-desc">USD - US Dollar</div>
+                        </div>
+                        <div class="setting-action">
+                            <i class="fa-solid fa-check" style="display: none;"></i>
+                        </div>
+                    </div>
+                    <div class="setting-item currency-option" data-currency="EUR">
+                        <div class="setting-info">
+                            <div class="setting-name">Euro (€)</div>
+                            <div class="setting-desc">EUR - Euro</div>
+                        </div>
+                        <div class="setting-action">
+                            <i class="fa-solid fa-check" style="display: none;"></i>
+                        </div>
+                    </div>
+                    <div class="setting-item currency-option" data-currency="GBP">
+                        <div class="setting-info">
+                            <div class="setting-name">British Pound (£)</div>
+                            <div class="setting-desc">GBP - British Pound</div>
+                        </div>
+                        <div class="setting-action">
+                            <i class="fa-solid fa-check" style="display: none;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div class="modal" id="deleteAccountModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete Account</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                <p style="margin-top: 10px; font-size: 14px; color: var(--danger-color);">
+                    <strong>Warning:</strong> All your data including trades, investments, and history will be permanently deleted.
+                </p>
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="deletePassword">Enter your password to confirm</label>
+                    <input type="password" id="deletePassword" required>
+                </div>
+                <div id="deleteMessage" class="message"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelDelete">Cancel</button>
+                <button class="btn btn-danger" id="confirmDelete">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <footer>
+        <div class="navbarModern">
+            <a href="dashboard.html" class="navItem">
+                <i class="fa-solid fa-house"></i>
+                <span class="navLabel">Home</span>
+            </a>
+            <a href="trade.html" class="navItem">
+                <i class="fa-solid fa-plus"></i>
+                <span class="navLabel">Trade</span>
+            </a>
+            <a href="calendar.html" class="navItem">
+                <i class="fa-solid fa-calendar"></i>
+                <span class="navLabel">Calendar</span>
+            </a>
+            <a href="history.html" class="navItem">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="navLabel">History</span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged,
+            updateProfile,
+            updateEmail,
+            updatePassword,
+            reauthenticateWithCredential,
+            EmailAuthProvider,
+            deleteUser,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            query, 
+            where, 
+            getDocs,
+            doc,
+            getDoc,
+            setDoc,
+            deleteDoc,
+            writeBatch
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAGtlTRl6YCy9K6KkVdggFDra78vyPlRPI",
+            authDomain: "altiva-b8b07.firebaseapp.com",
+            projectId: "altiva-b8b07",
+            storageBucket: "altiva-b8b07.firebasestorage.app",
+            messagingSenderId: "181781306925",
+            appId: "1:181781306925:web:d7a3f9e51a79219d4562a4",
+            measurementId: "G-6999KN5RGR"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let userData = {};
+        let allTrades = [];
+
+        // DOM Elements
+        const modals = {
+            editProfile: document.getElementById('editProfileModal'),
+            changePassword: document.getElementById('changePasswordModal'),
+            changeEmail: document.getElementById('changeEmailModal'),
+            currency: document.getElementById('currencyModal'),
+            deleteAccount: document.getElementById('deleteAccountModal')
+        };
+
+        const closeButtons = document.querySelectorAll('.close-modal');
+        const cancelButtons = document.querySelectorAll('.btn-secondary');
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserData();
+                await loadTradesData();
+                updateProfileDisplay();
+            } else {
+                window.location.href = 'auth.html';
+            }
+        });
+
+        // Load user data from Firestore
+        async function loadUserData() {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                if (userDoc.exists()) {
+                    userData = userDoc.data();
+                } else {
+                    // Create initial user data if it doesn't exist
+                    userData = {
+                        firstName: currentUser.displayName?.split(' ')[0] || 'User',
+                        lastName: currentUser.displayName?.split(' ')[1] || '',
+                        phone: '',
+                        currency: 'INR',
+                        darkMode: false,
+                        notifications: true,
+                        biometric: false,
+                        createdAt: new Date().toISOString()
+                    };
+                    await setDoc(doc(db, 'users', currentUser.uid), userData);
+                }
+
+                // Load preferences from localStorage
+                const savedPreferences = JSON.parse(localStorage.getItem('altivaPreferences') || '{}');
+                userData.darkMode = savedPreferences.darkMode || userData.darkMode || false;
+                userData.notifications = savedPreferences.notifications !== undefined ? savedPreferences.notifications : true;
+                userData.biometric = savedPreferences.biometric || false;
+                userData.currency = savedPreferences.currency || userData.currency || 'INR';
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        // Load trades data from Firestore
+        async function loadTradesData() {
+            try {
+                const tradesQuery = query(
+                    collection(db, 'trades'),
+                    where('userId', '==', currentUser.uid)
+                );
+                const querySnapshot = await getDocs(tradesQuery);
+                allTrades = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (error) {
+                console.error('Error loading trades data:', error);
+            }
+        }
+
+        // Update profile display with user data
+        function updateProfileDisplay() {
+            // Update profile header
+            document.getElementById('userName').textContent = currentUser.displayName || `${userData.firstName} ${userData.lastName}`.trim() || 'User';
+            document.getElementById('userEmail').textContent = currentUser.email || 'No email';
+            
+            // Update avatar with initials
+            const userName = document.getElementById('userName').textContent;
+            const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('userAvatar').textContent = initials;
+            
+            // Update stats
+            document.getElementById('totalTrades').textContent = allTrades.length;
+            
+            const memberSince = userData.createdAt ? new Date(userData.createdAt) : new Date();
+            document.getElementById('memberSince').textContent = memberSince.getFullYear();
+            
+            // Calculate win rate
+            const winningTrades = allTrades.filter(trade => trade.status === 'win').length;
+            const winRate = allTrades.length > 0 ? Math.round((winningTrades / allTrades.length) * 100) : 0;
+            document.getElementById('winRate').textContent = `${winRate}%`;
+            
+            // Update preferences toggles
+            document.getElementById('darkModeToggle').checked = userData.darkMode;
+            document.getElementById('notificationsToggle').checked = userData.notifications;
+            document.getElementById('biometricToggle').checked = userData.biometric;
+            document.getElementById('currentCurrency').textContent = userData.currency;
+            
+            // Update currency options
+            updateCurrencyOptions();
+        }
+
+        // Update currency selection in modal
+        function updateCurrencyOptions() {
+            const currencyOptions = document.querySelectorAll('.currency-option');
+            currencyOptions.forEach(option => {
+                const checkIcon = option.querySelector('.fa-check');
+                if (option.dataset.currency === userData.currency) {
+                    checkIcon.style.display = 'inline';
+                } else {
+                    checkIcon.style.display = 'none';
+                }
+            });
+        }
+
+        // Save preferences to localStorage
+        function savePreferences() {
+            const preferences = {
+                darkMode: userData.darkMode,
+                notifications: userData.notifications,
+                biometric: userData.biometric,
+                currency: userData.currency
+            };
+            localStorage.setItem('altivaPreferences', JSON.stringify(preferences));
+        }
+
+        // Event Listeners for Modals
+        document.getElementById('editProfileBtn').addEventListener('click', () => {
+            // Pre-fill form with current data
+            document.getElementById('firstName').value = userData.firstName || '';
+            document.getElementById('lastName').value = userData.lastName || '';
+            document.getElementById('phone').value = userData.phone || '';
+            document.getElementById('profileMessage').style.display = 'none';
+            modals.editProfile.classList.add('active');
+        });
+
+        document.getElementById('changePasswordBtn').addEventListener('click', () => {
+            document.getElementById('changePasswordForm').reset();
+            document.getElementById('passwordMessage').style.display = 'none';
+            modals.changePassword.classList.add('active');
+        });
+
+        document.getElementById('changeEmailBtn').addEventListener('click', () => {
+            document.getElementById('newEmail').value = currentUser.email || '';
+            document.getElementById('emailMessage').style.display = 'none';
+            modals.changeEmail.classList.add('active');
+        });
+
+        document.getElementById('currencyBtn').addEventListener('click', () => {
+            updateCurrencyOptions();
+            modals.currency.classList.add('active');
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            if (confirm('Are you sure you want to log out?')) {
+                try {
+                    await signOut(auth);
+                    window.location.href = 'auth.html';
+                } catch (error) {
+                    console.error('Error signing out:', error);
+                }
+            }
+        });
+
+        document.getElementById('deleteAccountBtn').addEventListener('click', () => {
+            document.getElementById('deletePassword').value = '';
+            document.getElementById('deleteMessage').style.display = 'none';
+            modals.deleteAccount.classList.add('active');
+        });
+
+        // Close modals
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                Object.values(modals).forEach(modal => modal.classList.remove('active'));
+            });
+        });
+
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                Object.values(modals).forEach(modal => modal.classList.remove('active'));
+            });
+        });
+
+        // Close modal when clicking outside
+        Object.values(modals).forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // Currency selection
+        document.querySelectorAll('.currency-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const selectedCurrency = option.dataset.currency;
+                userData.currency = selectedCurrency;
+                savePreferences();
+                updateProfileDisplay();
+                modals.currency.classList.remove('active');
+            });
+        });
+
+        // Save profile changes
+        document.getElementById('saveProfile').addEventListener('click', async () => {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const messageEl = document.getElementById('profileMessage');
+
+            if (!firstName) {
+                messageEl.textContent = 'First name is required';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            try {
+                // Update user profile in Firebase Auth
+                await updateProfile(currentUser, {
+                    displayName: `${firstName} ${lastName}`.trim()
+                });
+
+                // Update user data in Firestore
+                userData.firstName = firstName;
+                userData.lastName = lastName;
+                userData.phone = phone;
+                
+                await setDoc(doc(db, 'users', currentUser.uid), userData);
+
+                messageEl.textContent = 'Profile updated successfully!';
+                messageEl.className = 'message success';
+                messageEl.style.display = 'block';
+                
+                updateProfileDisplay();
+                
+                setTimeout(() => {
+                    modals.editProfile.classList.remove('active');
+                }, 1500);
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                messageEl.textContent = 'Error updating profile. Please try again.';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+            }
+        });
+
+        // Change password
+        document.getElementById('savePassword').addEventListener('click', async () => {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const messageEl = document.getElementById('passwordMessage');
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                messageEl.textContent = 'All fields are required';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                messageEl.textContent = 'Password must be at least 6 characters';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                messageEl.textContent = 'New passwords do not match';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            try {
+                // Re-authenticate user
+                const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
+                await reauthenticateWithCredential(currentUser, credential);
+                
+                // Update password
+                await updatePassword(currentUser, newPassword);
+                
+                messageEl.textContent = 'Password updated successfully!';
+                messageEl.className = 'message success';
+                messageEl.style.display = 'block';
+                
+                document.getElementById('changePasswordForm').reset();
+                
+                setTimeout(() => {
+                    modals.changePassword.classList.remove('active');
+                }, 1500);
+            } catch (error) {
+                console.error('Error updating password:', error);
+                if (error.code === 'auth/wrong-password') {
+                    messageEl.textContent = 'Current password is incorrect';
+                } else {
+                    messageEl.textContent = 'Error updating password. Please try again.';
+                }
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+            }
+        });
+
+        // Change email
+        document.getElementById('saveEmail').addEventListener('click', async () => {
+            const newEmail = document.getElementById('newEmail').value.trim();
+            const password = document.getElementById('emailPassword').value;
+            const messageEl = document.getElementById('emailMessage');
+
+            if (!newEmail || !password) {
+                messageEl.textContent = 'All fields are required';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            if (newEmail === currentUser.email) {
+                messageEl.textContent = 'This is already your current email';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            try {
+                // Re-authenticate user
+                const credential = EmailAuthProvider.credential(currentUser.email, password);
+                await reauthenticateWithCredential(currentUser, credential);
+                
+                // Update email
+                await updateEmail(currentUser, newEmail);
+                
+                messageEl.textContent = 'Email updated successfully!';
+                messageEl.className = 'message success';
+                messageEl.style.display = 'block';
+                
+                updateProfileDisplay();
+                
+                setTimeout(() => {
+                    modals.changeEmail.classList.remove('active');
+                }, 1500);
+            } catch (error) {
+                console.error('Error updating email:', error);
+                if (error.code === 'auth/wrong-password') {
+                    messageEl.textContent = 'Password is incorrect';
+                } else if (error.code === 'auth/email-already-in-use') {
+                    messageEl.textContent = 'Email is already in use';
+                } else {
+                    messageEl.textContent = 'Error updating email. Please try again.';
+                }
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+            }
+        });
+
+        // Delete account
+        document.getElementById('confirmDelete').addEventListener('click', async () => {
+            const password = document.getElementById('deletePassword').value;
+            const messageEl = document.getElementById('deleteMessage');
+
+            if (!password) {
+                messageEl.textContent = 'Please enter your password to confirm';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            try {
+                // Re-authenticate user
+                const credential = EmailAuthProvider.credential(currentUser.email, password);
+                await reauthenticateWithCredential(currentUser, credential);
+                
+                // Delete user data from Firestore
+                const batch = writeBatch(db);
+                
+                // Delete user document
+                batch.delete(doc(db, 'users', currentUser.uid));
+                
+                // Delete all user trades
+                allTrades.forEach(trade => {
+                    batch.delete(doc(db, 'trades', trade.id));
+                });
+                
+                await batch.commit();
+                
+                // Delete user account
+                await deleteUser(currentUser);
+                
+                // Redirect to auth page
+                window.location.href = 'auth.html';
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                if (error.code === 'auth/wrong-password') {
+                    messageEl.textContent = 'Password is incorrect';
+                } else {
+                    messageEl.textContent = 'Error deleting account. Please try again.';
+                }
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+            }
+        });
+
+        // Toggle switches
+        document.getElementById('darkModeToggle').addEventListener('change', (e) => {
+            userData.darkMode = e.target.checked;
+            savePreferences();
+            // In a real app, you would apply the dark mode theme here
+            if (e.target.checked) {
+                document.body.style.backgroundColor = '#1a1a1a';
+                document.body.style.color = '#ffffff';
+            } else {
+                document.body.style.backgroundColor = '';
+                document.body.style.color = '';
+            }
+        });
+
+        document.getElementById('notificationsToggle').addEventListener('change', (e) => {
+            userData.notifications = e.target.checked;
+            savePreferences();
+        });
+
+        document.getElementById('biometricToggle').addEventListener('change', (e) => {
+            userData.biometric = e.target.checked;
+            savePreferences();
+        });
+
+        // Other settings buttons (placeholder functionality)
+        document.getElementById('exportDataBtn').addEventListener('click', () => {
+            alert('Export data functionality would be implemented here');
+        });
+
+       document.getElementById('privacyBtn').addEventListener('click', () => {
+  window.location.href = "privacy-policy.html";
+});
+
+
+        document.getElementById('termsBtn').addEventListener('click', () => {
+            window.location.href = "terms-of-service.html";
+        });
+
+        document.getElementById('helpBtn').addEventListener('click', () => {
+            window.location.href = "contact.html";
+        });
+
+        document.getElementById('feedbackBtn').addEventListener('click', () => {
+            alert('Feedback form would be displayed here');
+        });
+
+        document.getElementById('aboutBtn').addEventListener('click', () => {
+            window.location.href = "about.html";
+        });
+    </script>
+</body>
+</html>

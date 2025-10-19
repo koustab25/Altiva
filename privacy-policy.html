@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Altiva</title>
+    <style>
+        :root {
+            --primary-color: #02aeec;
+            --primary-dark: #0399de;
+            --primary-ultra-dark: #053f74;
+            --secondary-color: #50E3C2;
+            --background-color: #F8FAFC;
+            --text-color: #333333;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --neutral-color: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            width: 25px;
+            height: 30px;
+            border-radius: 12px;
+        }
+
+        .logoDiv {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+        }
+
+        .logoDiv h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-ultra-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            margin-left: auto;
+            background: var(--primary-ultra-dark);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            min-height: 36px;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px 15px;
+            padding-bottom: 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 10px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            color: #64748B;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.3;
+            padding: 0 10px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-ultra-dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-ultra-dark);
+            margin: 20px 0 10px 0;
+        }
+
+        .content-text {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #4B5563;
+        }
+
+        .content-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .content-list li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #4B5563;
+        }
+
+        .highlight-box {
+            background: rgba(2, 174, 236, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 14px;
+            color: #4B5563;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid var(--primary-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--success-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #4B5563;
+        }
+
+        /* Last Updated */
+        .last-updated {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        /* Bottom Navigation */
+        .navbarModern {
+            width: 100%;
+            height: 65px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+            padding: 0 8px;
+        }
+
+        .navItem {
+            color: var(--primary-ultra-dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            width: 55px;
+            height: 45px;
+            flex-shrink: 0;
+        }
+
+        .navItem.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navItem i {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .navLabel {
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px 10px;
+                padding-bottom: 75px;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+
+            .navbarModern {
+                height: 60px;
+            }
+
+            .navItem {
+                width: 50px;
+                height: 40px;
+            }
+        }
+
+        /* Touch improvements */
+        @media (hover: none) {
+            .back-btn:hover, .nav-link:hover {
+                transform: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logoDiv">
+            <img src="assets/A letter Logo design-Photoroom.png" alt="Altiva Logo" class="logo"/>
+            <h1>ltiva</h1>
+        </div>
+        
+        <a href="settings.html" class="back-btn">
+            <span><i class="fa-solid fa-arrow-left"></i></span>
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Privacy Policy</h1>
+        <p class="page-subtitle">How we protect and handle your personal information</p>
+
+        <!-- Privacy Content -->
+        <div class="content-section">
+            <h2 class="section-title">Your Privacy Matters</h2>
+            
+            <div class="content-text">
+                <p>Your privacy is important to us. This Privacy Policy explains how Altiva collects, uses, and protects your personal information when you use our investment tracking application.</p>
+            </div>
+
+            <h3 class="section-subtitle">1. Information We Collect</h3>
+            <div class="content-text">
+                <p>We collect information you provide directly to us:</p>
+                <ul class="content-list">
+                    <li><strong>Account Information:</strong> Name, email address, and password when you create an account</li>
+                    <li><strong>Investment Data:</strong> Information about your trades, investments, and financial activities that you choose to track</li>
+                    <li><strong>Usage Data:</strong> How you interact with our application, including features used and time spent</li>
+                    <li><strong>Device Information:</strong> Device type, operating system, and app version for technical support</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">2. How We Use Your Information</h3>
+            <div class="content-text">
+                <p>We use the information we collect to:</p>
+                <ul class="content-list">
+                    <li>Provide, maintain, and improve our services</li>
+                    <li>Process your transactions and send related information</li>
+                    <li>Send you technical notices and support messages</li>
+                    <li>Respond to your comments and questions</li>
+                    <li>Develop new products and services</li>
+                    <li>Monitor and analyze usage patterns</li>
+                    <li>Detect, prevent, and address technical issues</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">3. Data Security</h3>
+            <div class="content-text">
+                <p>We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. This includes:</p>
+                <ul class="content-list">
+                    <li>Encryption of sensitive data in transit and at rest</li>
+                    <li>Regular security assessments and updates</li>
+                    <li>Access controls and authentication mechanisms</li>
+                    <li>Secure data storage practices</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">4. Data Sharing</h3>
+            <div class="content-text">
+                <p>We do not sell, trade, or rent your personal information to third parties. We may share information in the following circumstances:</p>
+                <ul class="content-list">
+                    <li>With your explicit consent</li>
+                    <li>To comply with legal obligations or court orders</li>
+                    <li>To protect and defend our rights and property</li>
+                    <li>With service providers who assist in our operations (under strict confidentiality agreements)</li>
+                    <li>In connection with a business transfer, such as merger or acquisition</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">5. Your Rights</h3>
+            <div class="content-text">
+                <p>You have the right to:</p>
+                <ul class="content-list">
+                    <li>Access and update your personal information</li>
+                    <li>Delete your account and associated data</li>
+                    <li>Opt-out of promotional communications</li>
+                    <li>Request a copy of your data in a portable format</li>
+                    <li>Restrict or object to certain data processing</li>
+                    <li>Withdraw consent at any time</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">6. Data Retention</h3>
+            <div class="content-text">
+                <p>We retain your personal information for as long as necessary to provide you with our services and as required by applicable laws. When you delete your account, we will remove your personal data from our active systems within 30 days.</p>
+            </div>
+
+            <h3 class="section-subtitle">7. Children's Privacy</h3>
+            <div class="content-text">
+                <p>Our services are not directed to individuals under 18. We do not knowingly collect personal information from children under 18. If we become aware that we have collected personal information from a child under 18, we will take steps to delete such information.</p>
+            </div>
+
+            <h3 class="section-subtitle">8. International Data Transfers</h3>
+            <div class="content-text">
+                <p>Your information may be transferred to and maintained on computers located outside of your state, province, country, or other governmental jurisdiction where the data protection laws may differ from those of your jurisdiction.</p>
+            </div>
+
+            <h3 class="section-subtitle">9. Changes to This Policy</h3>
+            <div class="content-text">
+                <p>We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last Updated" date. We will also notify you via email or in-app notification for material changes.</p>
+            </div>
+
+            <div class="contact-info">
+                <p><strong>Contact Us</strong></p>
+                <p>If you have any questions about this Privacy Policy or our data practices, please contact us:</p>
+                <p>Email: koustabchakraborty47@gmail.com</p>
+                <p>Response Time: We aim to respond to all privacy-related inquiries within 48 hours.</p>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Transparency Commitment:</strong> We believe in being transparent about how we handle your data. If you have any concerns or questions about your privacy, we encourage you to reach out to us.</p>
+            </div>
+
+            <div class="nav-links">
+                <a href="terms-of-service.html" class="nav-link">
+                    <i class="fa-solid fa-file-contract"></i> Terms of Service
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fa-solid fa-gear"></i> Back to Settings
+                </a>
+            </div>
+        </div>
+
+        <div class="last-updated">
+            <p>Last Updated: November 2025</p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <footer>
+        <div class="navbarModern">
+            <a href="dashboard.html" class="navItem">
+                <i class="fa-solid fa-house"></i>
+                <span class="navLabel">Home</span>
+            </a>
+            <a href="trade.html" class="navItem">
+                <i class="fa-solid fa-plus"></i>
+                <span class="navLabel">Trade</span>
+            </a>
+            <a href="calendar.html" class="navItem">
+                <i class="fa-solid fa-calendar"></i>
+                <span class="navLabel">Calendar</span>
+            </a>
+            <a href="history.html" class="navItem">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="navLabel">History</span>
+            </a>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Altiva Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary-color: #02aeec;
+      --primary-dark: #0399de;
+      --primary-ultra-dark: #053f74;
+      --secondary-color: #50E3C2;
+      --background-color: #F8FAFC;
+      --text-color: #333333;
+      --card-bg: #FFFFFF;
+      --border-color: #E2E8F0;
+      --success-color: #10B981;
+      --warning-color: #F59E0B;
+      --danger-color: #EF4444;
+      --neutral-color: #6B7280;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
+
+    /* Header Styles - UNCHANGED */
+        header {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            width: 25px;
+            height: 30px;
+            border-radius: 12px;
+        }
+
+        .logoDiv {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+        }
+
+        .logoDiv h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-ultra-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+    .profile-settings {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+    }
+
+    .icon-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 10px;
+      height: 44px;
+      width: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .icon-btn:hover {
+      background: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(2, 174, 236, 0.2);
+    }
+
+    .icon-btn:hover i {
+      color: white;
+    }
+
+    .icon-btn i {
+      color: var(--primary-dark);
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: var(--danger-color);
+      color: white;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      font-size: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 20px 15px;
+      padding-bottom: 90px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .welcome-section {
+      margin-bottom: 25px;
+    }
+
+    .greetUser {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-ultra-dark);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .welcome-text {
+      color: #64748B;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    @media (min-width: 480px) {
+      .quick-actions {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+
+    .action-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .action-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-color: var(--primary-color);
+    }
+    
+
+    .action-icon {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      color: white;
+      font-size: 18px;
+    }
+
+    .action-title {
+      font-weight: 600;
+      color: var(--primary-ultra-dark);
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .action-desc {
+      font-size: 11px;
+      color: #64748B;
+    }
+
+    /* Cards Section */
+    .card {
+      padding: 20px;
+      color: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card.profit {
+      background: linear-gradient(135deg, #057426, #10B981, #057426);
+    }
+
+    .card.loss {
+      background: linear-gradient(135deg, #dc2626, #ef4444, #dc2626);
+    }
+
+    .card.neutral {
+      background: linear-gradient(135deg, #6B7280, #9CA3AF, #6B7280);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+    }
+
+    .dot{
+      color: #30f730c1;
+      animation: blinkDot 3s infinite;
+      font-size: 1rem;
+      position: relative;
+      top: 2px;
+    }
+
+    @keyframes blinkDot {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.1;
+      }
+    }
+
+    .iconHeading{
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 6px 12px;
+      border-radius: 15px;
+      width: max-content;
+      font-size: 0.8rem;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .card-statement{
+      margin-top: 8px;
+      color: #e8f5e8;
+      font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      padding-top: 12px;
+      line-height: 1.3;
+    }
+
+    .TotalGains{
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 8px 0;
+      line-height: 1.2;
+    }
+
+    .balance-label{
+      font-size: 0.75rem;
+      color: #c8f7c8;
+      line-height: 1.3;
+    }
+
+    .othercards{
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      position: relative;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .othercards:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.1);
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--primary-ultra-dark);
+      font-size: 11px;
+      transition: all 0.3s ease;
+    }
+
+    .info-btn:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .info-content {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      background: var(--background-color);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: #64748B;
+      border-left: 3px solid var(--primary-color);
+      line-height: 1.4;
+    }
+
+    .info-content.show {
+      display: block;
+    }
+
+    .cardWrapper{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    @media (min-width: 768px) {
+      .cardWrapper {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 480px) and (max-width: 767px) {
+      .cardWrapper {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .Stats {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 8px 0;
+      line-height: 1.2;
+    }
+
+    .other-card-statement {
+      font-size: 0.8rem;
+      color: #64748B;
+      margin-top: 8px;
+      line-height: 1.3;
+    }
+
+    /* Recent Activity & Investments */
+    .activity-section {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+    }
+
+    .activity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .activity-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary-ultra-dark);
+    }
+
+    .view-all {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--background-color);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .activity-item:hover {
+      transform: translateX(3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .activity-icon.profit { background: var(--success-color); }
+    .activity-icon.loss { background: var(--danger-color); }
+    .activity-icon.neutral { background: var(--warning-color); }
+    .activity-icon.long-term { background: var(--primary-color); }
+
+    .activity-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .activity-asset {
+      font-weight: 600;
+      color: var(--primary-ultra-dark);
+      margin-bottom: 3px;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .activity-details {
+      font-size: 11px;
+      color: #64748B;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      line-height: 1.3;
+    }
+
+    .activity-amount {
+      font-weight: 700;
+      text-align: right;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .amount-profit { color: var(--success-color); }
+    .amount-loss { color: var(--danger-color); }
+
+    /* Long-term Investment Styles */
+    .investment-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--background-color);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .investment-item:hover {
+      transform: translateX(3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .investment-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .investment-icon.sold {
+      background: var(--success-color);
+    }
+
+    .investment-icon.partial {
+      background: var(--warning-color);
+    }
+
+    .investment-icon.active {
+      background: var(--primary-color);
+    }
+
+    .investment-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .investment-asset {
+      font-weight: 600;
+      color: var(--primary-ultra-dark);
+      margin-bottom: 3px;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .investment-details {
+      font-size: 11px;
+      color: #64748B;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      line-height: 1.3;
+    }
+
+    .investment-amount {
+      font-weight: 700;
+      text-align: right;
+      color: var(--primary-ultra-dark);
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .investment-units {
+      font-size: 11px;
+      color: #64748B;
+      text-align: right;
+    }
+
+    .sell-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin-left: 8px;
+      flex-shrink: 0;
+    }
+
+    .sell-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .sold-badge {
+      background: var(--success-color);
+      color: white;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    .partial-badge {
+      background: var(--warning-color);
+      color: white;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    .investment-item.sold-item {
+      opacity: 0.7;
+      background: rgba(107, 114, 128, 0.05);
+    }
+
+    .sold-item .investment-amount {
+      color: var(--neutral-color);
+    }
+
+    .sold-item .investment-units {
+      color: var(--neutral-color);
+    }
+
+    .info-disclaimer {
+      text-align: center;
+      margin-top: 12px;
+      padding: 10px;
+      background: var(--background-color);
+      border-radius: 8px;
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.4;
+    }
+
+    .info-disclaimer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Notification Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 15px;
+      width: 100%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary-ultra-dark);
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #64748B;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+    }
+
+    .close-modal:hover {
+      background: var(--border-color);
+    }
+
+    .modal-body {
+      padding: 0;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .notification-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .notification-item:hover {
+      background: var(--background-color);
+    }
+
+    .notification-item.unread {
+      background: rgba(2, 174, 236, 0.05);
+    }
+
+    .notification-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .notification-icon.info { background: var(--primary-color); }
+    .notification-icon.success { background: var(--success-color); }
+    .notification-icon.warning { background: var(--warning-color); }
+    .notification-icon.danger { background: var(--danger-color); }
+
+    .notification-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notification-title {
+      font-weight: 600;
+      color: var(--primary-ultra-dark);
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .notification-desc {
+      font-size: 13px;
+      color: #64748B;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .notification-time {
+      font-size: 11px;
+      color: #94A3B8;
+    }
+
+    /* Bottom Navigation */
+    .navbarModern {
+      width: 100%;
+      height: 70px;
+      background-color: var(--card-bg);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+      z-index: 90;
+      padding: 0 10px;
+    }
+
+    .navItem {
+      color: var(--primary-ultra-dark);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      width: 60px;
+      height: 50px;
+    }
+
+    .navItem.active {
+      background: var(--primary-ultra-dark);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .navItem i {
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .navLabel {
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    /* Empty States */
+    .empty-state {
+      text-align: center;
+      padding: 30px 20px;
+      color: #64748B;
+    }
+
+    .empty-state i {
+      font-size: 40px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .empty-state p {
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .empty-state .btn {
+      padding: 10px 20px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 380px) {
+      .main-content {
+        padding: 15px 10px;
+        padding-bottom: 80px;
+      }
+
+      .greetUser {
+        font-size: 22px;
+      }
+
+      .card, .othercards {
+        padding: 15px;
+      }
+
+      .TotalGains {
+        font-size: 1.6rem;
+      }
+
+      .Stats {
+        font-size: 1.3rem;
+      }
+
+      .activity-section {
+        padding: 15px;
+      }
+
+      .investment-details, .activity-details {
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .logoDiv h1 {
+        font-size: 18px;
+      }
+
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      .action-card {
+        padding: 15px;
+      }
+    }
+     /* Bottom Navigation */
+        .navbarModern {
+            width: 100%;
+            height: 65px;
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+            z-index: 90;
+            padding: 0 8px;
+        }
+
+        .navItem {
+            color: var(--primary-ultra-dark);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            width: 55px;
+            height: 45px;
+            flex-shrink: 0;
+        }
+
+        .navItem.active {
+            background: var(--primary-ultra-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navItem i {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .navLabel {
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logoDiv">
+      <img src="assets/A letter Logo design-Photoroom.png" alt="Altiva Logo" class="logo"/>
+      <h1>ltiva</h1>
+    </div>
+    
+    <div class="profile-settings">
+      <button style="display: none;" class="icon-btn" id="notification-btn">
+        <i class="fa-solid fa-bell"></i>
+        <span class="notification-badge" id="notification-count">3</span>
+      </button>
+      <button onclick="window.location.href='settings.html'" class="icon-btn" id="profile-btn">
+        <i class="fa-solid fa-user"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="welcome-section">
+      <h1 class="greetUser">Hello, <span id="username">Loading...</span>!</h1>
+      <p class="welcome-text" id="welcome-message">Loading your portfolio...</p>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <div class="action-card" onclick="window.location.href='trade.html'">
+        <div style="border-radius: 50%;" class="action-icon">
+          <i  class="fa-solid fa-plus"></i>
+        </div>
+        <div class="action-title">Add Trade</div>
+        <div class="action-desc">Record new investment</div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="cardWrapper">
+      <!-- Total Gain Card -->
+      <div class="card" id="totalGainCard">
+        <p class="iconHeading"> Total Gain</p>
+        <h3 class="TotalGains" id="totalGains">₹ 0.00</h3>
+        <div class="balance-label" id="balanceLabel">
+          <span id="lastUpdated">Updating...</span> <span class="dot">• </span>  
+          <span id="percentageChange" style="margin-left:8px; font-weight: bold; color: rgb(255, 255, 255);">+0.0%</span>
+        </div>
+        <p class="card-statement" id="gainStatement">Loading your performance...</p>
+      </div>  
+
+      <!-- Other Cards -->
+      <div class="othercards">
+        <button class="info-btn" onclick="toggleInfo('investmentInfo')">
+          <i class="fa-solid fa-info"></i>
+        </button>
+        <p class="iconHeading" style="background-color:#02aeec; color: white;"><i class="fa-solid fa-wallet"></i> Total Investment</p>
+        <h3 class="Stats" id="totalInvestment">₹ 0.00</h3>
+        <p class="other-card-statement">Last Investment <span style="font-weight: bold; color: #02aeec;" id="lastInvestment">₹ 0.00</span></p>
+        <div class="info-content" id="investmentInfo">
+          Total amount you've invested across all trades. This includes both profitable and loss-making investments.
+        </div>
+      </div>
+
+      <div class="othercards">
+        <button class="info-btn" onclick="toggleInfo('profitInfo')">
+          <i class="fa-solid fa-info"></i>
+        </button>
+        <p class="iconHeading" style="background-color:#10B981; color: white;"><i class="fa-solid fa-arrow-trend-up"></i> Total Profit</p>
+        <h3 class="Stats" id="totalProfit">₹ 0.00</h3>
+        <p class="other-card-statement">Last Profit <span style="font-weight: bold; color: #10B981;" id="lastProfit">₹ 0.00</span></p>
+        <div class="info-content" id="profitInfo">
+          Sum of all profitable trades where returns exceeded investment. Focus on increasing this number through smart investments.
+        </div>
+      </div>
+
+      <div class="othercards">
+        <button class="info-btn" onclick="toggleInfo('lossInfo')">
+          <i class="fa-solid fa-info"></i>
+        </button>
+        <p class="iconHeading" style="background-color:#EF4444; color: white;"><i class="fa-solid fa-arrow-trend-down"></i> Total Loss</p>
+        <h3 class="Stats" id="totalLoss">₹ 0.00</h3>
+        <p class="other-card-statement">Last Loss <span style="font-weight: bold; color: #EF4444;" id="lastLoss">₹ 0.00</span></p>
+        <div class="info-content" id="lossInfo">
+          Total amount lost from trades where investment exceeded returns. Monitor this to improve risk management strategies.
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Stats Row -->
+    <div class="cardWrapper">
+      <div class="othercards">
+        <button class="info-btn" onclick="toggleInfo('streakInfo')">
+          <i class="fa-solid fa-info"></i>
+        </button>
+        <p class="iconHeading" style="background-color:#F59E0B; color: white;"><i class="fa-solid fa-fire"></i> Profit Streak</p>
+        <h3 class="Stats" id="profitStreak">0 days</h3>
+        <p class="other-card-statement">Highest <span style="font-weight: bold; color: #F59E0B;" id="highestStreak">0 days</span></p>
+        <div class="info-content" id="streakInfo">
+          Consecutive days with profitable trades. Maintaining streaks indicates consistent trading performance.
+        </div>
+      </div>
+
+      <div class="othercards">
+        <button class="info-btn" onclick="toggleInfo('winrateInfo')">
+          <i class="fa-solid fa-info"></i>
+        </button>
+        <p class="iconHeading" style="background-color:#8B5CF6; color: white;"><i class="fa-solid fa-chart-line"></i> Win Rate</p>
+        <h3 class="Stats" id="winRate">0%</h3>
+        <p class="other-card-statement">Successful trades <span style="font-weight: bold; color: #8B5CF6;" id="successfulTrades">0</span></p>
+        <div class="info-content" id="winrateInfo">
+          Percentage of profitable trades. A higher win rate indicates better trade selection and timing.
+        </div>
+      </div>
+
+      <div class="othercards">
+        <button class="info-btn" onclick="toggleInfo('tradesInfo')">
+          <i class="fa-solid fa-info"></i>
+        </button>
+        <p class="iconHeading" style="background-color:#06B6D4; color: white;"><i class="fa-solid fa-rotate"></i> Total Trades</p>
+        <h3 class="Stats" id="totalTrades">0</h3>
+        <p class="other-card-statement">This month <span style="font-weight: bold; color: #06B6D4;" id="monthlyTrades">0</span></p>
+        <div class="info-content" id="tradesInfo">
+          Total number of trades executed. Track your trading frequency and activity levels.
+        </div>
+      </div>
+
+      <div class="othercards">
+        <button class="info-btn" onclick="toggleInfo('assetInfo')">
+          <i class="fa-solid fa-info"></i>
+        </button>
+        <p class="iconHeading" style="background-color:#84CC16; color: white;"><i class="fa-solid fa-star"></i> Best Asset</p>
+        <h3 class="Stats" id="bestAsset">-</h3>
+        <p class="other-card-statement">Performance <span style="font-weight: bold; color: #84CC16;" id="bestAssetPerf">+0%</span></p>
+        <div class="info-content" id="assetInfo">
+          Your best performing asset based on average returns. Consider focusing on similar assets for future trades.
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity Section -->
+    <div class="activity-section">
+      <div class="activity-header">
+        <h3 class="activity-title">Recent Activity</h3>
+        <a href="history.html" class="view-all">View All</a>
+      </div>
+      <div class="activity-list" id="recentActivity">
+        <!-- Recent trades will be loaded here -->
+      </div>
+    </div>
+
+    <!-- Long-Term Investments Section -->
+    <div class="activity-section">
+      <div class="activity-header">
+        <h3 class="activity-title">Long-Term Investments</h3>
+        <a href="investments-history.html" class="view-all">View All</a>
+      </div>
+      <div class="activity-list" id="longTermInvestments">
+        <!-- Max 5 unsold + 1 recent sold will be loaded here -->
+      </div>
+      <div class="info-disclaimer">
+        <i class="fa-solid fa-info-circle"></i> Showing 5 active investments & 1 recent sale. 
+        <a href="investments-history.html">View complete history</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <footer>
+    <div class="navbarModern">
+      <a href="dashboard.html" class="navItem active">
+        <i class="fa-solid fa-house"></i>
+        <span class="navLabel">Home</span>
+      </a>
+      <a href="trade.html" class="navItem">
+        <i class="fa-solid fa-plus"></i>
+        <span class="navLabel">Trade</span>
+      </a>
+      <a href="calendar.html" class="navItem">
+        <i class="fa-solid fa-calendar"></i>
+        <span class="navLabel">Calendar</span>
+      </a>
+      <a href="history.html" class="navItem">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span class="navLabel">History</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Notification Modal -->
+  <div  class="modal" id="notification-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Notifications</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="notification-item unread">
+          <div class="notification-icon info">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">Portfolio Update</div>
+            <div class="notification-desc">Your portfolio gained 5.2% this week. Great job!</div>
+            <div class="notification-time">2 hours ago</div>
+          </div>
+        </div>
+        
+        <div class="notification-item unread">
+          <div class="notification-icon success">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">Profit Streak</div>
+            <div class="notification-desc">You've maintained a 3-day profit streak. Keep it up!</div>
+            <div class="notification-time">1 day ago</div>
+          </div>
+        </div>
+        
+        <div class="notification-item">
+          <div class="notification-icon warning">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">Trading Tip</div>
+            <div class="notification-desc">Consider diversifying your portfolio to manage risk better.</div>
+            <div class="notification-time">2 days ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      collection, 
+      query, 
+      where, 
+      getDocs,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGtlTRl6YCy9K6KkVdggFDra78vyPlRPI",
+      authDomain: "altiva-b8b07.firebaseapp.com",
+      projectId: "altiva-b8b07",
+      storageBucket: "altiva-b8b07.firebasestorage.app",
+      messagingSenderId: "181781306925",
+      appId: "1:181781306925:web:d7a3f9e51a79219d4562a4",
+      measurementId: "G-6999KN5RGR"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+    let allTrades = [];
+    let longTermInvestments = [];
+    let userFirstName = '';
+
+    // Safe DOM element getter with null check
+    function getElement(id) {
+      const element = document.getElementById(id);
+      if (!element) {
+        console.warn(`Element with id '${id}' not found`);
+      }
+      return element;
+    }
+
+    // Safe text content setter
+    function setTextContent(id, text) {
+      const element = getElement(id);
+      if (element) {
+        element.textContent = text;
+      }
+    }
+
+    // Toggle info sections
+    function toggleInfo(infoId) {
+      const infoContent = document.getElementById(infoId);
+      if (infoContent) {
+        infoContent.classList.toggle('show');
+      }
+    }
+
+    // Notification functionality
+    const notificationBtn = document.getElementById('notification-btn');
+    const notificationModal = document.getElementById('notification-modal');
+    const closeModal = document.querySelector('.close-modal');
+    const notificationItems = document.querySelectorAll('.notification-item');
+    const notificationBadge = document.getElementById('notification-count');
+
+    notificationBtn.addEventListener('click', () => {
+      notificationModal.classList.add('active');
+    });
+
+    closeModal.addEventListener('click', () => {
+      notificationModal.classList.remove('active');
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target === notificationModal) {
+        notificationModal.classList.remove('active');
+      }
+    });
+
+    // Mark notifications as read
+    notificationItems.forEach(item => {
+      item.addEventListener('click', () => {
+        if (item.classList.contains('unread')) {
+          item.classList.remove('unread');
+          updateNotificationBadge();
+        }
+      });
+    });
+
+    function updateNotificationBadge() {
+      const unreadCount = document.querySelectorAll('.notification-item.unread').length;
+      if (notificationBadge) {
+        notificationBadge.textContent = unreadCount;
+        if (unreadCount === 0) {
+          notificationBadge.style.display = 'none';
+        }
+      }
+    }
+
+    // Check authentication state
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        await loadUserData();
+        loadDashboardData();
+      } else {
+        window.location.href = 'auth.html';
+      }
+    });
+
+    // Load user data including first name
+    async function loadUserData() {
+      try {
+        // Try to get user data from Firestore
+        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          userFirstName = userData.firstName || currentUser.displayName || currentUser.email.split('@')[0];
+        } else {
+          userFirstName = currentUser.displayName || currentUser.email.split('@')[0] || 'Trader';
+        }
+        setTextContent('username', userFirstName);
+      } catch (error) {
+        console.error('Error loading user data:', error);
+        userFirstName = currentUser.displayName || currentUser.email.split('@')[0] || 'Trader';
+        setTextContent('username', userFirstName);
+      }
+    }
+
+    // Load all dashboard data
+    async function loadDashboardData() {
+      try {
+        console.log('Loading dashboard data...');
+        await loadTradesData();
+        await loadLongTermInvestments();
+        updateDashboardStats();
+        updateRecentActivity();
+        updateLongTermInvestmentsDisplay();
+        updateWelcomeMessage();
+        
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        setTextContent('welcome-message', 'Error loading data. Please refresh the page.');
+      }
+    }
+
+    // Load trades from Firestore
+    async function loadTradesData() {
+      try {
+        console.log('Loading trades from Firestore...');
+        const q = query(
+          collection(db, 'trades'),
+          where('userId', '==', currentUser.uid)
+        );
+        
+        const querySnapshot = await getDocs(q);
+        allTrades = [];
+        
+        querySnapshot.forEach((doc) => {
+          const trade = doc.data();
+          allTrades.push({
+            id: doc.id,
+            tradeDate: trade.tradeDate,
+            investment: parseFloat(trade.investment) || 0,
+            returns: parseFloat(trade.returns) || 0,
+            netAmount: parseFloat(trade.netAmount) || 0,
+            status: trade.status,
+            assetName: trade.assetName || 'Unknown Asset',
+            category: trade.category || 'others',
+            tradeType: trade.tradeType || 'regular'
+          });
+        });
+
+        console.log(`Loaded ${allTrades.length} trades`);
+        
+        // Sort by date (newest first)
+        allTrades.sort((a, b) => new Date(b.tradeDate) - new Date(a.tradeDate));
+        
+      } catch (error) {
+        console.error('Error loading trades:', error);
+        throw error;
+      }
+    }
+
+    // Load long-term investments from Firestore
+    async function loadLongTermInvestments() {
+      try {
+        console.log('Loading long-term investments from Firestore...');
+        const q = query(
+          collection(db, 'investments'),
+          where('userId', '==', currentUser.uid),
+          where('investmentType', '==', 'long-term')
+        );
+        
+        const querySnapshot = await getDocs(q);
+        longTermInvestments = [];
+        
+        querySnapshot.forEach((doc) => {
+          const investment = doc.data();
+          longTermInvestments.push({
+            id: doc.id,
+            assetName: investment.assetName,
+            category: investment.category,
+            units: investment.units,
+            buyPrice: investment.buyPrice,
+            totalInvestment: investment.totalInvestment,
+            purchaseDate: investment.purchaseDate,
+            notes: investment.notes,
+            status: investment.status || 'active',
+            remainingUnits: investment.remainingUnits || investment.units,
+            soldDate: investment.soldDate || null
+          });
+        });
+
+        console.log(`Loaded ${longTermInvestments.length} long-term investments`);
+        
+      } catch (error) {
+        console.error('Error loading long-term investments:', error);
+        throw error;
+      }
+    }
+
+    // Calculate monthly trades count
+    function calculateMonthlyTrades() {
+      const now = new Date();
+      const currentMonth = now.getMonth();
+      const currentYear = now.getFullYear();
+      
+      const monthlyTrades = allTrades.filter(trade => {
+        const tradeDate = new Date(trade.tradeDate);
+        return tradeDate.getMonth() === currentMonth && 
+               tradeDate.getFullYear() === currentYear;
+      });
+      
+      return monthlyTrades.length;
+    }
+
+    // Calculate profit streak
+    function calculateProfitStreak() {
+      if (allTrades.length === 0) return { current: 0, highest: 0 };
+      
+      // Group trades by date and determine daily profit/loss
+      const dailyPerformance = {};
+      allTrades.forEach(trade => {
+        const date = trade.tradeDate;
+        if (!dailyPerformance[date]) {
+          dailyPerformance[date] = { profit: 0, loss: 0 };
+        }
+        const pnl = trade.returns - trade.investment;
+        if (pnl > 0) {
+          dailyPerformance[date].profit += pnl;
+        } else {
+          dailyPerformance[date].loss += Math.abs(pnl);
+        }
+      });
+      
+      // Sort dates and calculate streak
+      const sortedDates = Object.keys(dailyPerformance).sort((a, b) => new Date(b) - new Date(a));
+      let currentStreak = 0;
+      let highestStreak = 0;
+      
+      for (let date of sortedDates) {
+        const day = dailyPerformance[date];
+        if (day.profit > day.loss) {
+          currentStreak++;
+          highestStreak = Math.max(highestStreak, currentStreak);
+        } else {
+          currentStreak = 0;
+        }
+      }
+      
+      return { current: currentStreak, highest: highestStreak };
+    }
+
+    // Calculate best performing asset
+    function calculateBestAsset() {
+      if (allTrades.length === 0) return { name: '-', performance: 0 };
+      
+      const assetPerformance = {};
+      
+      allTrades.forEach(trade => {
+        const assetName = trade.assetName;
+        if (!assetPerformance[assetName]) {
+          assetPerformance[assetName] = {
+            totalInvestment: 0,
+            totalReturns: 0,
+            tradeCount: 0
+          };
+        }
+        
+        assetPerformance[assetName].totalInvestment += trade.investment;
+        assetPerformance[assetName].totalReturns += trade.returns;
+        assetPerformance[assetName].tradeCount++;
+      });
+      
+      let bestAsset = { name: '-', performance: 0 };
+      
+      Object.keys(assetPerformance).forEach(assetName => {
+        const perf = assetPerformance[assetName];
+        const roi = ((perf.totalReturns - perf.totalInvestment) / perf.totalInvestment) * 100;
+        
+        if (roi > bestAsset.performance) {
+          bestAsset = {
+            name: assetName,
+            performance: roi
+          };
+        }
+      });
+      
+      return bestAsset;
+    }
+
+    // Update dashboard statistics
+    function updateDashboardStats() {
+      console.log('Updating dashboard stats...');
+      
+      if (allTrades.length === 0 && longTermInvestments.length === 0) {
+        setEmptyState();
+        return;
+      }
+
+      try {
+        // Calculate totals from trades
+        const totalInvestment = allTrades.reduce((sum, trade) => sum + trade.investment, 0);
+        const totalReturns = allTrades.reduce((sum, trade) => sum + trade.returns, 0);
+        const totalGains = totalReturns - totalInvestment;
+        
+        // Add long-term investments to total investment
+        const longTermInvestmentTotal = longTermInvestments.reduce((sum, investment) => sum + investment.totalInvestment, 0);
+        const overallInvestment = totalInvestment + longTermInvestmentTotal;
+        
+        // Calculate profit and loss separately
+        const profitableTrades = allTrades.filter(trade => trade.returns > trade.investment);
+        const lossTrades = allTrades.filter(trade => trade.returns < trade.investment);
+        
+        const totalProfit = profitableTrades.reduce((sum, trade) => sum + (trade.returns - trade.investment), 0);
+        const totalLoss = lossTrades.reduce((sum, trade) => sum + (trade.investment - trade.returns), 0);
+
+        // Calculate percentages and ratios
+        const winRate = allTrades.length > 0 ? (profitableTrades.length / allTrades.length * 100).toFixed(1) : 0;
+        const percentageChange = overallInvestment > 0 ? ((totalGains / overallInvestment) * 100).toFixed(1) : 0;
+
+        // Update Total Gain Card dynamically
+        const totalGainCard = document.getElementById('totalGainCard');
+        const totalGainsElement = document.getElementById('totalGains');
+        
+        // Update card appearance based on performance
+        if (totalGains > 0) {
+          totalGainCard.className = 'card profit';
+          setTextContent('totalGains', `+ ₹${Math.abs(totalGains).toFixed(2)}`);
+          setTextContent('percentageChange', `+${percentageChange}%`);
+          document.getElementById('percentageChange').style.color = 'yellow';
+          setTextContent('gainStatement', 'You are currently at positive gains. Keep it up!');
+        } else if (totalGains < 0) {
+          totalGainCard.className = 'card loss';
+          setTextContent('totalGains', `- ₹${Math.abs(totalGains).toFixed(2)}`);
+          setTextContent('percentageChange', `${percentageChange}%`);
+          document.getElementById('percentageChange').style.color = 'yellow';
+          setTextContent('gainStatement', 'Focus on risk management and analysis.');
+        } else {
+          totalGainCard.className = 'card neutral';
+          setTextContent('totalGains', `₹${Math.abs(totalGains).toFixed(2)}`);
+          setTextContent('percentageChange', '0.0%');
+          document.getElementById('percentageChange').style.color = 'yellow';
+          setTextContent('gainStatement', 'Start trading to see your performance!');
+        }
+
+        // Update other stats
+        setTextContent('totalInvestment', `₹${overallInvestment.toFixed(2)}`);
+        setTextContent('totalProfit', `₹${totalProfit.toFixed(2)}`);
+        setTextContent('totalLoss', `₹${totalLoss.toFixed(2)}`);
+        setTextContent('totalTrades', allTrades.length.toString());
+        setTextContent('winRate', `${winRate}%`);
+        setTextContent('successfulTrades', profitableTrades.length.toString());
+
+        // Update last trade amounts
+        if (allTrades.length > 0) {
+          const lastTrade = allTrades[0];
+          setTextContent('lastInvestment', `₹${lastTrade.investment.toFixed(2)}`);
+          
+          const lastPnl = lastTrade.returns - lastTrade.investment;
+          if (lastPnl > 0) {
+            // Profitable trade
+            setTextContent('lastProfit', `₹${lastPnl.toFixed(2)}`);
+            setTextContent('lastLoss', '₹0.00');
+          } else if (lastPnl < 0) {
+            // Loss-making trade
+            setTextContent('lastProfit', '₹0.00');
+            setTextContent('lastLoss', `₹${Math.abs(lastPnl).toFixed(2)}`);
+          } else {
+            // Break-even trade
+            setTextContent('lastProfit', '₹0.00');
+            setTextContent('lastLoss', '₹0.00');
+          }
+        } else {
+          // No trades yet
+          setTextContent('lastProfit', '₹0.00');
+          setTextContent('lastLoss', '₹0.00');
+        }
+
+        // Update monthly trades
+        const monthlyTradesCount = calculateMonthlyTrades();
+        setTextContent('monthlyTrades', monthlyTradesCount.toString());
+
+        // Update profit streak
+        const streak = calculateProfitStreak();
+        setTextContent('profitStreak', `${streak.current} days`);
+        setTextContent('highestStreak', `${streak.highest} days`);
+
+        // Update best asset
+        const bestAsset = calculateBestAsset();
+        setTextContent('bestAsset', bestAsset.name);
+        setTextContent('bestAssetPerf', `${bestAsset.performance > 0 ? '+' : ''}${bestAsset.performance.toFixed(1)}%`);
+
+        setTextContent('lastUpdated', 'Updated just now');
+
+      } catch (error) {
+        console.error('Error updating dashboard stats:', error);
+      }
+    }
+
+    // Update recent activity
+    function updateRecentActivity() {
+      console.log('Updating recent activity...');
+      const recentActivity = getElement('recentActivity');
+      if (!recentActivity) return;
+
+      // Combine trades and long-term investments for recent activity
+      const recentItems = [];
+      
+      // Add recent trades
+      const recentTrades = allTrades.slice(0, 5);
+      recentTrades.forEach(trade => {
+        recentItems.push({
+          type: 'trade',
+          data: trade,
+          date: new Date(trade.tradeDate)
+        });
+      });
+
+      // Add long-term investments as activity
+      const recentInvestments = longTermInvestments
+        .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate))
+        .slice(0, 3);
+      
+      recentInvestments.forEach(investment => {
+        recentItems.push({
+          type: 'long-term',
+          data: investment,
+          date: new Date(investment.purchaseDate)
+        });
+      });
+
+      // Sort all items by date (newest first) and take top 5
+      recentItems.sort((a, b) => b.date - a.date);
+      const displayItems = recentItems.slice(0, 5);
+
+      if (displayItems.length === 0) {
+        recentActivity.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-chart-line"></i>
+            <p>No recent activity</p>
+          </div>
+        `;
+        return;
+      }
+
+      recentActivity.innerHTML = displayItems.map(item => {
+        if (item.type === 'trade') {
+          const trade = item.data;
+          const pnl = trade.returns - trade.investment;
+          const pnlClass = pnl > 0 ? 'profit' : pnl < 0 ? 'loss' : 'neutral';
+          const pnlSign = pnl > 0 ? '+' : '';
+          const amountClass = pnl > 0 ? 'amount-profit' : 'amount-loss';
+
+          return `
+            <div class="activity-item">
+              <div class="activity-icon ${pnlClass}">
+                <i class="fa-solid fa-${pnl > 0 ? 'arrow-up' : pnl < 0 ? 'arrow-down' : 'minus'}"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-asset">${trade.assetName}</div>
+                <div class="activity-details">
+                  ${new Date(trade.tradeDate).toLocaleDateString()} • ${trade.category}
+                  ${trade.tradeType === 'sale' ? '• Sale' : ''}
+                </div>
+              </div>
+              <div class="activity-amount ${amountClass}">
+                ${pnlSign}₹${Math.abs(pnl).toFixed(2)}
+              </div>
+            </div>
+          `;
+        } else {
+          const investment = item.data;
+          return `
+            <div class="activity-item">
+              <div class="activity-icon long-term">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-asset">${investment.assetName}</div>
+                <div class="activity-details">
+                  ${new Date(investment.purchaseDate).toLocaleDateString()} • ${investment.category} • Long-term
+                </div>
+              </div>
+              <div class="activity-amount" style="color: var(--primary-color);">
+                ₹${investment.totalInvestment.toFixed(2)}
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
+    }
+
+    // Update long-term investments display - Show max 5 unsold + 1 recent sold
+    function updateLongTermInvestmentsDisplay() {
+      console.log('Updating long-term investments display...');
+      const container = getElement('longTermInvestments');
+      if (!container) return;
+
+      // Separate investments by status
+      const activeInvestments = longTermInvestments.filter(inv => inv.status === 'active');
+      const partialInvestments = longTermInvestments.filter(inv => inv.status === 'partial');
+      const soldInvestments = longTermInvestments.filter(inv => inv.status === 'sold');
+      
+      // Combine active and partial as "unsold"
+      const unsoldInvestments = [...activeInvestments, ...partialInvestments];
+      
+      // Get top 5 unsold (most recent first)
+      const displayUnsold = unsoldInvestments
+        .sort((a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate))
+        .slice(0, 5);
+      
+      // Get most recent sold
+      const displaySold = soldInvestments
+        .sort((a, b) => new Date(b.soldDate || b.purchaseDate) - new Date(a.soldDate || a.purchaseDate))
+        .slice(0, 1);
+
+      const displayInvestments = [...displayUnsold, ...displaySold];
+
+      if (displayInvestments.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-chart-line"></i>
+            <p>No long-term investments yet</p>
+            <button onclick="window.location.href='trade.html'" class="btn">Add Investment</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = displayInvestments.map(investment => {
+        const availableUnits = investment.remainingUnits || investment.units;
+        const isFullySold = investment.status === 'sold';
+        const isPartiallySold = investment.status === 'partial';
+        const totalSold = investment.units - availableUnits;
+        
+        return `
+          <div class="investment-item ${isFullySold ? 'sold-item' : ''}">
+            <div class="investment-icon ${isFullySold ? 'sold' : isPartiallySold ? 'partial' : 'active'}">
+              <i class="fa-solid fa-${isFullySold ? 'check-circle' : 'chart-line'}"></i>
+            </div>
+            <div class="investment-content">
+              <div class="investment-asset">
+                ${investment.assetName}
+                ${isFullySold ? '<span class="sold-badge">SOLD</span>' : ''}
+                ${isPartiallySold ? '<span class="partial-badge">PARTIAL</span>' : ''}
+              </div>
+              <div class="investment-details">
+                <span>${investment.category}</span>
+                <span>${new Date(investment.purchaseDate).toLocaleDateString()}</span>
+                <span>${availableUnits}/${investment.units} units</span>
+                ${isPartiallySold ? `<span style="color: var(--primary-color);">${totalSold} sold</span>` : ''}
+                ${isFullySold ? `<span style="color: var(--success-color);">Sold: ${investment.soldDate ? new Date(investment.soldDate).toLocaleDateString() : 'N/A'}</span>` : ''}
+              </div>
+            </div>
+            <div class="investment-amount">
+              ₹${investment.totalInvestment.toFixed(2)}
+              <div class="investment-units">
+                @ ₹${investment.buyPrice.toFixed(2)}/unit
+              </div>
+            </div>
+            ${!isFullySold ? `
+              <button class="sell-btn" onclick="sellInvestment('${investment.id}')">
+                Sell
+              </button>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Update welcome message based on performance
+    function updateWelcomeMessage() {
+      const totalGains = allTrades.reduce((sum, trade) => sum + (trade.returns - trade.investment), 0);
+      
+      if (allTrades.length === 0 && longTermInvestments.length === 0) {
+        setTextContent('welcome-message', `Welcome to Altiva, ${userFirstName}! Start by adding your first trade.`);
+      } else if (totalGains > 0) {
+        setTextContent('welcome-message', `Great work, ${userFirstName}! Your portfolio is up ₹${Math.abs(totalGains).toFixed(2)} overall.`);
+      } else {
+        setTextContent('welcome-message', `Keep going, ${userFirstName}! Track your investments and improve your strategy.`);
+      }
+    }
+
+    // Set empty state
+    function setEmptyState() {
+      setTextContent('welcome-message', `Welcome to Altiva, ${userFirstName}! Start by adding your first trade.`);
+      const recentActivity = getElement('recentActivity');
+      if (recentActivity) {
+        recentActivity.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-plus"></i>
+            <p>No trades yet</p>
+            <button onclick="window.location.href='trade.html'" class="btn">Add First Trade</button>
+          </div>
+        `;
+      }
+    }
+
+    // Sell investment function
+    function sellInvestment(investmentId) {
+      // Redirect to sell page with investment ID
+      window.location.href = `sell.html?id=${investmentId}`;
+    }
+
+    // Make functions global
+    window.toggleInfo = toggleInfo;
+    window.sellInvestment = sellInvestment;
+  </script>
+</body>
+</html>
