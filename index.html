@@ -94,16 +94,18 @@
       }
       
       // Otherwise redirect to auth page
-      setTimeout(() => {
-        window.location.href = "auth.html";
-      }, 1000);
+    setTimeout(() => {
+  window.location.href = "./auth.html";
+}, 1000);
+
     };
 
     // Start transition after animation completes
-    setTimeout(() => {
-      transitionToNextPage();
-      window.location.href = "auth.html";
-    }, 3500);
+   setTimeout(() => {
+  transitionToNextPage();
+  window.location.href = "./auth.html";
+}, 3500);
+
   </script>
 </body>
 </html>
